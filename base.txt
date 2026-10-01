@@ -1,0 +1,48 @@
+# Proyecto: Análisis de Midterms 2026 (EE.UU.)
+
+## Objetivo
+Evaluar si el oficialismo (Partido Republicano / administración Trump) retiene
+la mayoría en House y Senate en las elecciones de medio término del
+3 de noviembre de 2026, con foco en los distritos/estados swing que definen
+ese control.
+
+## Decisiones de scope (ya cerradas, no reabrir sin confirmación)
+- **Cámaras:** ambas — House (435 bancas) y Senate (escaños en juego este ciclo).
+- **Definición de "ganar":** retención de mayoría por cámara. No es net seat
+  change ni voto popular agregado.
+- **Alcance geográfico:** distritos/estados swing, no promedio nacional.
+- **Datasets a usar:** solo dos.
+  1. MIT Election Lab — https://electionlab.mit.edu/data
+  2. BLS (Bureau of Labor Statistics) — https://www.bls.gov/developers/
+- **Datasets descartados del scope:** Census ACS 1-year y FEC. No usarlos salvo
+  pedido explícito; si se los menciona, es como limitación/extensión futura.
+- **Limitación aceptada y declarada en el output final:** no se usan encuestas
+  ni ratings de expertos (Cook Political, Sabato's Crystal Ball, generic ballot
+  polls). El análisis es de *fundamentals* estructurales (historial electoral +
+  economía), no de intención de voto directa.
+
+## Uso de cada dataset
+- **MIT Election Lab:** define qué distritos House y qué escaños Senate son
+  swing este ciclo, según margen histórico 2016–2024 (no API, son CSV
+  descargables desde Harvard Dataverse).
+- **BLS:** indicador económico (empleo/inflación, vía API REST, requiere key
+  gratuita) a nivel nacional y, donde esté disponible, por estado — aplicado
+  específicamente sobre los distritos/estados identificados como swing por
+  MIT, no como promedio nacional genérico.
+
+## Entregable esperado
+1. Lista de distritos House y escaños Senate en juego, clasificados por
+   competitividad según histórico MIT.
+2. Contexto económico (BLS) nacional y por estado clave.
+3. Síntesis: qué dice cada eje sobre las chances del oficialismo, con
+   limitaciones explícitas (sin polling, no es predicción de intención de voto).
+
+## Estructura de carpeta sugerida
+- /data/mit-election-lab/   → CSVs crudos descargados
+- /data/bls/                → respuestas de la API guardadas (JSON/CSV)
+- /analysis/                → scripts de procesamiento
+- /output/                  → informe final y/o spreadsheet
+
+## Pendiente
+- Confirmar si ya hay API key de BLS generada, o generarla antes de tirar
+  requests (registro gratuito en bls.gov/developers).
