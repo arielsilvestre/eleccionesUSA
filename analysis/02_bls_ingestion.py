@@ -210,6 +210,70 @@ def fetch_cpi() -> pd.DataFrame:
     return df
 
 
+def build_swing_context(laus_df: pd.DataFrame, swing_states: dict) -> pd.DataFrame:
+    """
+    Para cada estado swing, extrae:
+      - tasa de desempleo más reciente disponible
+      - cambio YoY (mismo período del año anterior), si existe
+      - flags swing_house / swing_senate
+    Exporta a output/bls_swing_context.csv.
+    """
+    all_states = sorted(swing_states['house'] | swing_states['senate'])
+
+    # Mes más reciente por estado
+    latest = (
+        laus_df
+        .sort_values(['state_po', 'year', 'period'], ascending=[True, False, False])
+        .groupby('state_po', as_index=False)
+        .first()
+        [['state_po', 'year', 'period', 'period_name', 'unemployment_rate']]
+        .rename(columns={
+            'year'             : 'latest_year',
+            'period'           : 'latest_period',
+            'period_name'      : 'latest_period_name',
+            'unemployment_rate': 'unemployment_rate_latest',
+        })
+    )
+
+    # Mismo período del año anterior para calcular YoY
+    prev_year_lookup = laus_df.copy()
+    prev_year_lookup['year_next'] = prev_year_lookup['year'] + 1
+    yoy = latest.merge(
+        prev_year_lookup[['state_po', 'year_next', 'period', 'unemployment_rate']]
+        .rename(columns={
+            'year_next'        : 'latest_year',
+            'period'           : 'latest_period',
+            'unemployment_rate': 'unemployment_rate_prev_year',
+        }),
+        on=['state_po', 'latest_year', 'latest_period'],
+        how='left',
+    )
+    yoy['unemployment_yoy_change'] = (
+        yoy['unemployment_rate_latest'] - yoy['unemployment_rate_prev_year']
+    ).round(2)
+
+    # Flags swing
+    yoy['swing_house']  = yoy['state_po'].isin(swing_states['house'])
+    yoy['swing_senate'] = yoy['state_po'].isin(swing_states['senate'])
+
+    # Ordenar por tasa más reciente
+    result = yoy.sort_values('unemployment_rate_latest', ascending=False).reset_index(drop=True)
+
+    cols = [
+        'state_po',
+        'swing_house', 'swing_senate',
+        'latest_year', 'latest_period', 'latest_period_name',
+        'unemployment_rate_latest', 'unemployment_rate_prev_year',
+        'unemployment_yoy_change',
+    ]
+    result = result[cols]
+
+    csv_path = os.path.join(OUT_DIR, 'bls_swing_context.csv')
+    result.to_csv(csv_path, index=False)
+    print(f'  CSV guardado: {csv_path} ({len(result)} estados)')
+    return result
+
+
 if __name__ == '__main__':
     swing = get_swing_states()
 
@@ -220,3 +284,9 @@ if __name__ == '__main__':
     print('\n=== CPI — Inflación nacional ===')
     cpi_df = fetch_cpi()
     print(cpi_df.tail(5).to_string(index=False))
+
+    print('\n=== Contexto BLS swing states ===')
+    context_df = build_swing_context(laus_df, swing)
+    print(context_df.to_string(index=False))
+    print(f'\nPeriodo cubierto LAUS: {laus_df["year"].min()}–{laus_df["year"].max()}')
+    print(f'Periodo cubierto CPI : {cpi_df["year"].min()}–{cpi_df["year"].max()}')
