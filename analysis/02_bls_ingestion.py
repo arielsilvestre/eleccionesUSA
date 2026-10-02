@@ -172,9 +172,51 @@ def fetch_laus(swing_states: dict) -> pd.DataFrame:
     return df
 
 
+def fetch_cpi() -> pd.DataFrame:
+    """
+    Pide la serie CPI-U nacional (CUSR0000SA0, SA) para el rango de fechas.
+    Guarda JSON crudo en data/bls/cpi_national_raw.json.
+    Devuelve DataFrame con columnas: series_id, year, period, period_name, cpi_value.
+    """
+    print(f'  Fetching CPI nacional ({CPI_SERIES_ID})')
+    raw = call_bls_api([CPI_SERIES_ID], BLS_START_YEAR, BLS_END_YEAR)
+
+    raw_path = os.path.join(BLS_DIR, 'cpi_national_raw.json')
+    with open(raw_path, 'w', encoding='utf-8') as f:
+        json.dump(raw, f, indent=2)
+    print(f'  JSON crudo guardado: {raw_path}')
+
+    rows = []
+    for point in raw['Results']['series'][0]['data']:
+        if point['period'] == 'M13':
+            continue
+        if point['value'] == '-':
+            continue
+        rows.append({
+            'series_id'  : CPI_SERIES_ID,
+            'year'       : int(point['year']),
+            'period'     : point['period'],
+            'period_name': point['periodName'],
+            'cpi_value'  : float(point['value']),
+        })
+
+    df = pd.DataFrame(rows)
+    if not df.empty:
+        df = df.sort_values(['year', 'period']).reset_index(drop=True)
+
+    csv_path = os.path.join(BLS_DIR, 'cpi_national.csv')
+    df.to_csv(csv_path, index=False)
+    print(f'  CSV guardado: {csv_path} ({len(df)} filas)')
+    return df
+
+
 if __name__ == '__main__':
     swing = get_swing_states()
 
     print('\n=== LAUS — Desempleo estatal ===')
     laus_df = fetch_laus(swing)
     print(laus_df.tail(5).to_string(index=False))
+
+    print('\n=== CPI — Inflación nacional ===')
+    cpi_df = fetch_cpi()
+    print(cpi_df.tail(5).to_string(index=False))
