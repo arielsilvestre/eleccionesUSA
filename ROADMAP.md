@@ -34,10 +34,10 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
 
 ## Fase 3 — Ingesta BLS
 
-- [ ] **3.1** Script: llamar API BLS, serie LAUS (desempleo por estado)
-- [ ] **3.2** Script: llamar API BLS, serie CPI (inflación nacional y por estado disponible)
-- [ ] **3.3** Filtrar respuestas a los estados swing identificados en Fase 2
-- [ ] **3.4** Guardar respuestas en `/data/bls/` como JSON y/o CSV
+- [x] **3.1** Script: llamar API BLS, serie LAUS (desempleo por estado)
+- [x] **3.2** Script: llamar API BLS, serie CPI (inflación nacional y por estado disponible)
+- [x] **3.3** Filtrar respuestas a los estados swing identificados en Fase 2
+- [x] **3.4** Guardar respuestas en `/data/bls/` como JSON y/o CSV
 
 ---
 

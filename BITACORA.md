@@ -61,3 +61,40 @@ inicio de cada sesión y después de cada hito relevante.
    Puede hacerse en paralelo o después de Fase 3, a definir.
 
 ---
+
+## Sesión 2 — 01/10/2026
+
+### Fase 3 — BLS completada
+- Escrito script `analysis/02_bls_ingestion.py` que:
+  - Carga estados swing de los outputs de Fase 2 (28 estados: unión House + Senate).
+  - Mapea estados a FIPS codes y construye series IDs LAUS.
+  - Llama a BLS API v2 en batch (28 series en una sola request).
+  - Descarga LAUS (desempleo mensual por estado, 2022–2026).
+    - Filtra períodos M13 (promedio anual) y valores '-' (datos no publicados).
+    - Dato ausente detectado: octubre 2025 (suspensión de apropiaciones).
+  - Descarga CPI nacional (CUSR0000SA0, 2022–2026).
+  - Parsea respuestas y guarda JSON crudos y CSVs en `/data/bls/`.
+  - Genera `output/bls_swing_context.csv` con último dato de desempleo
+    (agosto 2026) por estado swing + cambio YoY. 28 estados, 0 nulls.
+- Registradas decisiones D-07 (rango temporal BLS: 2022–2026) y
+  D-08 (serie CPI: CUSR0000SA0, SA).
+- Fases 3.1–3.4 marcadas como completadas en ROADMAP.
+
+### Outputs generados en esta sesión
+- `data/bls/laus_swing_states_raw.json` — respuesta cruda LAUS (28 estados)
+- `data/bls/laus_swing_states.csv` — 1,540 filas, tasa desempleo 2022–2026
+- `data/bls/cpi_national_raw.json` — respuesta cruda CPI
+- `data/bls/cpi_national.csv` — 55 filas, CPI 2022–2026
+- `output/bls_swing_context.csv` — 28 estados, último dato + YoY
+
+### Estado al cierre de sesión
+- Fase 3 completada.
+- Pendientes: 1.3 (cobertura 2024 MIT), 1.6 (Railway connection string),
+  1.7 (FEC), 1.8 (House.gov), 2.5 (cruce FEC/House.gov).
+
+### Próxima sesión
+1. **Fase 4 — PostgreSQL (Railway):** requiere connection string (tarea 1.6).
+   Obtener string y configurar antes de arrancar.
+2. Tarea 2.5 (cruce MIT vs FEC/House.gov) puede hacerse antes de Fase 4.
+
+---

@@ -120,3 +120,46 @@ post redistricting 2021.
 
 **Nota:** los datos 2016–2024 sí se cargarán completos a PostgreSQL para
 consultas históricas.
+
+---
+
+## D-07 — Rango temporal BLS: 2022–2026
+
+**Fecha:** Fase 3
+**Aplica a:** LAUS y CPI
+**Decisión:** se solicitan datos desde 2022 hasta 2026 inclusive.
+
+**Justificación:** 2022 es el ciclo midterm inmediatamente anterior,
+lo que permite calcular cambio interanual (YoY) desde el año previo
+y tener contexto del ciclo electoral pasado. El endpoint BLS v2 permite
+hasta 20 años por request; 4 años es conservador y suficiente para el
+análisis de fundamentals.
+
+**Alternativas consideradas:**
+- 2020–2026: incluiría el año pre-pandemia de recuperación, pero agrega
+  ruido por la distorsión del COVID. Se puede ampliar si el análisis lo
+  requiere.
+- Solo 2024–2026: insuficiente para calcular YoY en 2024.
+
+---
+
+## D-08 — Serie CPI: CUSR0000SA0 (seasonally adjusted)
+
+**Fecha:** Fase 3
+**Aplica a:** CPI nacional
+**Decisión:** se usa la serie CUSR0000SA0 (CPI-U, todos los ítems,
+ajustado estacionalmente).
+
+**Justificación:** los modelos de voto económico (Erikson & Wlezien,
+Fair, Abramowitz) usan series ajustadas estacionalmente porque los
+votantes responden a la tendencia estructural de la economía. El ajuste
+estacional elimina el ruido cíclico (energía cara en invierno, alimentos
+en verano) que no refleja condiciones económicas percibidas por el electorado.
+
+**Nota:** LAUS (desempleo estatal) usa la serie no ajustada estacionalmente
+(LAUST, prefijo U), ya que no hay disponibilidad de series LAUS SA para
+todos los estados en el rango requerido. Esta asimetría SA/NSA entre CPI y
+LAUS es aceptable para el análisis de fundamentals a nivel anual/trimestral.
+
+**Alternativa descartada:** CUUR0000SA0 (not seasonally adjusted) — descartada
+por introducir ruido estacional irrelevante para la predicción electoral.
