@@ -219,10 +219,11 @@ def build_swing_context(laus_df: pd.DataFrame, swing_states: dict) -> pd.DataFra
     Exporta a output/bls_swing_context.csv.
     """
     all_states = sorted(swing_states['house'] | swing_states['senate'])
+    laus_swing = laus_df[laus_df['state_po'].isin(all_states)].copy()
 
     # Mes más reciente por estado
     latest = (
-        laus_df
+        laus_swing
         .sort_values(['state_po', 'year', 'period'], ascending=[True, False, False])
         .groupby('state_po', as_index=False)
         .first()
@@ -236,7 +237,7 @@ def build_swing_context(laus_df: pd.DataFrame, swing_states: dict) -> pd.DataFra
     )
 
     # Mismo período del año anterior para calcular YoY
-    prev_year_lookup = laus_df.copy()
+    prev_year_lookup = laus_swing.copy()
     prev_year_lookup['year_next'] = prev_year_lookup['year'] + 1
     yoy = latest.merge(
         prev_year_lookup[['state_po', 'year_next', 'period', 'unemployment_rate']]
