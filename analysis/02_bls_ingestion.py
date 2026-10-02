@@ -48,7 +48,7 @@ def laus_series_id(state_po: str) -> str:
     """
     Devuelve el series ID de BLS LAUS para la tasa de desempleo estatal.
     Formato: LAUST + FIPS(2 dígitos) + 0000000000003
-    'U' = United States (not seasonally adjusted), medida 03 = unemployment rate.
+    'U' = not seasonally adjusted (unadjusted), 'ST' = state area type. Medida 03 = unemployment rate.
     """
     if state_po not in STATE_FIPS:
         raise KeyError(f'No FIPS mapping for state: {state_po!r}')
@@ -109,18 +109,72 @@ def call_bls_api(series_ids: list, start_year: str, end_year: str) -> dict:
     return data
 
 
-if __name__ == '__main__':
-    print('--- Verificación helpers ---')
-    print(f'NC series ID : {laus_series_id("NC")}')   # esperado: LAUST370000000000003
-    print(f'MI series ID : {laus_series_id("MI")}')   # esperado: LAUST260000000000003
-    swing = get_swing_states()
-    all_swing = swing['house'] | swing['senate']
-    print(f'Estados House  swing : {len(swing["house"])}')   # esperado: ~22-28
-    print(f'Estados Senate swing : {len(swing["senate"])}')  # esperado: 11
-    print(f'Union swing states   : {sorted(all_swing)}')
+def parse_laus_response(raw: dict, series_to_state: dict) -> pd.DataFrame:
+    """
+    Convierte la respuesta cruda de la API LAUS a un DataFrame limpio.
+    Filtra los períodos M13 (promedio anual) — queremos datos mensuales.
+    Columnas: state_po, series_id, year, period, period_name, unemployment_rate
+    """
+    rows = []
+    for series in raw['Results']['series']:
+        sid   = series['seriesID']
+        state = series_to_state.get(sid, 'UNKNOWN')
+        for point in series['data']:
+            if point['period'] == 'M13':   # anual — se descarta
+                continue
+            if point['value'] == '-':
+                # BLS usa '-' para datos aún no publicados; se omite la fila.
+                continue
+            rows.append({
+                'state_po'         : state,
+                'series_id'        : sid,
+                'year'             : int(point['year']),
+                'period'           : point['period'],        # e.g. 'M01'
+                'period_name'      : point['periodName'],    # e.g. 'January'
+                'unemployment_rate': float(point['value']),
+            })
+    df = pd.DataFrame(rows)
+    if not df.empty:
+        df = df.sort_values(['state_po', 'year', 'period']).reset_index(drop=True)
+    return df
 
-    print('\n--- Verificación API (prueba con 1 serie) ---')
-    test_raw = call_bls_api(['LNS14000000'], '2025', '2026')
-    test_data = test_raw['Results']['series'][0]['data']
-    print(f'Serie LNS14000000 — primer dato: {test_data[0]}')
-    print('API OK')
+
+def fetch_laus(swing_states: dict) -> pd.DataFrame:
+    """
+    Pide LAUS para todos los estados swing (house U senate).
+    Guarda JSON crudo en data/bls/laus_swing_states_raw.json.
+    Devuelve DataFrame parseado.
+    """
+    all_states      = sorted(swing_states['house'] | swing_states['senate'])
+    series_ids      = [laus_series_id(s) for s in all_states]
+    series_to_state = {laus_series_id(s): s for s in all_states}
+
+    print(f'  Fetching LAUS para {len(all_states)} estados: {all_states}')
+    raw = call_bls_api(series_ids, BLS_START_YEAR, BLS_END_YEAR)
+
+    # Guardar crudo
+    raw_path = os.path.join(BLS_DIR, 'laus_swing_states_raw.json')
+    with open(raw_path, 'w', encoding='utf-8') as f:
+        json.dump(raw, f, indent=2)
+    print(f'  JSON crudo guardado: {raw_path}')
+
+    df = parse_laus_response(raw, series_to_state)
+
+    # Verificación básica
+    returned_states = set(df['state_po'].unique())
+    missing = set(all_states) - returned_states
+    if missing:
+        print(f'  AVISO: estados sin datos en respuesta LAUS: {missing}')
+
+    csv_path = os.path.join(BLS_DIR, 'laus_swing_states.csv')
+    df.to_csv(csv_path, index=False)
+    print(f'  CSV guardado: {csv_path} ({len(df)} filas, {df["state_po"].nunique()} estados)')
+    return df
+
+
+if __name__ == '__main__':
+    swing = get_swing_states()
+
+    print('\n=== LAUS — Desempleo estatal ===')
+    laus_df = fetch_laus(swing)
+    print(laus_df.tail(5).to_string(index=False))
