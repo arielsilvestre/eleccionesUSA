@@ -57,22 +57,29 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
 
 ## Fase 5 — Análisis
 
-- [ ] **5.1** Query: ranking de competitividad House por distrito (histórico MIT)
-- [ ] **5.2** Query: ranking de competitividad Senate por estado (histórico MIT)
+- [ ] **5.1** Tabla House swing + contexto económico BLS por estado
+      → `output/house_analysis_2026.csv`
+- [x] **5.2** Query: ranking de competitividad Senate (cubierto por `senate_analysis_2026.csv`)
 - [x] **5.3** Script scoring: combinar score histórico + económico + bellwether
       → `output/senate_analysis_2026.csv` con tabla maestra Senate
-- [ ] **5.3** Cruzar indicadores BLS con distritos/estados swing
-- [ ] **5.4** Definir métrica de riesgo para el oficialismo por escaño
-- [ ] **5.5** Sumar escaños en riesgo → proyección de control por cámara
+- [ ] **5.4** Dataset completo Class 2 Senate (~34 estados): tendencia histórica + titular
+      → `output/senate_class2_all.csv`
+- [ ] **5.5** Dataset Class 1 y 3 (~16 estados): partido del titular actual (2022/2024)
+      → `output/senate_non_class2.csv`
+- [ ] **5.6** Combinar en dataset unificado 50 estados para el mapa
+      → `output/senate_map_data.csv`
 
 ---
 
 ## Fase 6 — Output
 
 - [ ] **6.1** Exportar tabla House swing + contexto económico a CSV final
-- [ ] **6.2** Exportar tabla Senate swing + contexto económico a CSV final
+      (depende de 5.1)
+- [x] **6.2** Tabla maestra Senate lista → `output/senate_analysis_2026.csv`
 - [ ] **6.3** Redactar síntesis con limitaciones explícitas (sin polling,
       análisis de condiciones de fondo únicamente)
+- [ ] **6.4** Generar mapa interactivo HTML (plotly choropleth 50 estados)
+      → `output/senate_map_2026.html` (depende de 5.6)
 
 ---
 

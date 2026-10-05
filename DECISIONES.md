@@ -309,3 +309,86 @@ en producción. Esos formatos quedan para fases futuras.
 - ¿Qué dicen los datos económicos sobre esos estados?
 - ¿Qué es el bellwether y qué estados lo cumplen?
 - ¿Cómo se pondera todo y cuál es la proyección de control Senate?
+
+---
+
+## D-17 — Visualización principal: mapa interactivo HTML (plotly choropleth)
+
+**Fecha:** Sesión 3 — 05/10/2026
+**Aplica a:** Fase 6, tarea 6.4
+**Decisión:** la visualización de los resultados Senate se implementa como un
+mapa choropleth interactivo de los 50 estados en formato HTML, generado con
+plotly. El archivo `output/senate_map_2026.html` se puede abrir en cualquier
+browser y exportar como imagen para el PPT.
+
+**Alternativas descartadas:**
+- Imagen estática (matplotlib + geopandas): requiere shapefiles, menos flexible.
+- Streamlit dashboard: fuera de scope para el TP (backlog).
+
+---
+
+## D-18 — Paleta de colores del mapa: 8 categorías
+
+**Fecha:** Sesión 3 — 05/10/2026
+**Aplica a:** mapa senate_map_2026.html
+**Decisión:** se usan 8 categorías de color:
+
+| Categoría | Hex | Aplica a |
+|---|---|---|
+| Sólido D | #0D47A1 | Class 2, D gana por >10pp |
+| Leve D | #1976D2 | Class 2, D gana por 5–10pp |
+| Disputado → Favorable D | #2196F3 | Swing, score >60 |
+| Disputado puro | #FFD600 | Swing, score 40–60 sin tendencia clara |
+| Disputado → Favorable R | #FF8F00 | Swing, score <40 |
+| Leve R | #E53935 | Class 2, R gana por 5–10pp |
+| Sólido R | #B71C1C | Class 2, R gana por >10pp |
+| No vota 2026 | #90A4AE | Class 1 y 3 — mandato vigente |
+
+**Justificación:** escala cromática continua del azul al rojo, coherente con
+la convención estadounidense D=azul / R=rojo. El gris-azulado para los estados
+que no votan en 2026 los mantiene visibles como contexto sin competir con los
+estados en juego.
+
+---
+
+## D-19 — Tooltip completo para todos los estados
+
+**Fecha:** Sesión 3 — 05/10/2026
+**Aplica a:** mapa senate_map_2026.html
+**Decisión:** todos los estados muestran tooltip completo al hacer hover:
+nombre del estado, clasificación, partido del titular, score total (si aplica),
+último dato de desempleo BLS (si disponible), es_bellwether (si es swing).
+
+**Alternativa descartada:** tooltip simplificado para estados seguros.
+Descartada porque el TP es académico y la información completa agrega valor
+analítico sin costo de implementación.
+
+---
+
+## D-20 — Cobertura del mapa: 34 Class 2 (vivos) + 16 sin Class 2 (muted)
+
+**Fecha:** Sesión 3 — 05/10/2026
+**Aplica a:** mapa senate_map_2026.html
+**Decisión:** los 50 estados aparecen en el mapa. Los ~34 con escaño Class 2
+en juego en 2026 se muestran con colores vivos (escala D/R). Los ~16 sin
+escaño Class 2 en 2026 (tienen Class 1 y 3) se muestran en gris-azulado
+(#90A4AE), indicando "no en juego este ciclo".
+
+**Dataset requerido:**
+- `output/senate_class2_all.csv` — todos los Class 2 con tendencia histórica
+- `output/senate_non_class2.csv` — Class 1 y 3, partido del titular
+- `output/senate_map_data.csv` — unificado 50 estados
+
+---
+
+## D-21 — Terminología: "condiciones de fondo" reemplaza "fundamentals"
+
+**Fecha:** Sesión 3 — 05/10/2026
+**Aplica a:** toda la documentación del proyecto
+**Decisión:** se reemplaza el anglicismo "fundamentals" por "condiciones de
+fondo" en todos los archivos del proyecto. El término es más accesible para
+una audiencia no especializada en ciencias políticas o sociales.
+
+**Alcance del reemplazo:** CLAUDE.md, DECISIONES.md, README.md, ROADMAP.md,
+docs/resumen-definiciones.md, specs y plans. Excepción: base.txt (enunciado
+original, intocable).

@@ -134,16 +134,43 @@ inicio de cada sesión y después de cada hito relevante.
   - Disputado: TX (59.5), NC (56.5), MT (43.7), MN (43.0), GA (42.7)
   - Favorable R: NM (38.7), NH (38.4), IA (20.2), ME (17.8)
 
+### Decisiones adicionales de la sesión
+
+- **Mapa interactivo** incorporado como entregable visual (D-17): HTML plotly
+  choropleth de 50 estados.
+- **Paleta de colores** definida (D-18): 8 categorías, azul oscuro → rojo oscuro
+  + gris-azulado para estados sin Class 2 en 2026.
+- **Tooltip completo** para todos los estados (D-19): adecuado para contexto
+  académico.
+- **Cobertura del mapa** (D-20): 34 Class 2 vivos + 16 Class 1/3 muted.
+- **Terminología** (D-21): "fundamentals" reemplazado por "condiciones de fondo"
+  en todo el proyecto.
+
+### Análisis interpretativo completado
+
+- Lectura completa de `senate_analysis_2026.csv`: mayores riesgos R en TX y NC,
+  oportunidades R en NH. MI y CO seguros para D. Síntesis registrada en sesión.
+
 ### Estado al cierre de sesión
 
-- Tareas 2.6 y 5.3 completadas.
-- Pendientes: 1.3, 1.6 (Railway), 1.7, 1.8, 2.5, 5.1, 5.2, 5.4, 5.5, Fase 6.
+- Completadas: 2.6, 5.2, 5.3, 6.2.
+- Pendientes para el TP:
+  - **1.3** Verificar cobertura 2024 en MIT CSVs
+  - **5.1** Tabla House swing + BLS
+  - **5.4** Dataset Class 2 completo (~34 estados)
+  - **5.5** Dataset Class 1/3 (~16 estados)
+  - **5.6** Dataset unificado 50 estados
+  - **6.1** CSV final House
+  - **6.3** Síntesis escrita
+  - **6.4** Mapa interactivo HTML
+- Postergados: 1.6 (Railway), 1.7, 1.8, 2.5 (FEC/House.gov).
 
 ### Próxima sesión
 
-1. Definir métricas de riesgo para House (tareas 5.1, 5.2, 5.4, 5.5) si se decide
-   completar el análisis House también.
-2. Sintetizar hallazgos para el PPT (Fase 6).
-3. Railway puede incorporarse si se quiere una "fase de producción" con dashboard.
+1. **1.3** — verificar cobertura 2024 en MIT (bloquea 5.4 y 5.5).
+2. **5.4 + 5.5** — generar datasets Class 2 completo y Class 1/3.
+3. **5.6** — unificar en dataset 50 estados.
+4. **6.4** — generar mapa HTML una vez datos listos.
+5. **5.1 + 6.1** — tabla House si hay tiempo.
 
 ---
