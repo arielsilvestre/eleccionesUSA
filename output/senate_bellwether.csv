@@ -1,0 +1,12 @@
+state_po,es_bellwether,coincidencia_bellwether,score_bellwether,detalle_anios
+CO,True,5 de 6,80,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:D(ok), 2014:R(ok), 2020:D(ok)"
+NM,True,4 de 6,60,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:D(ok), 2014:D(no), 2020:D(ok)"
+MN,True,4 de 6,60,"1990:D(ok), 1996:D(no), 2002:R(ok), 2008:D(ok), 2014:D(no), 2020:D(ok)"
+NH,True,4 de 6,60,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:D(ok), 2014:D(no), 2020:D(ok)"
+NC,True,4 de 6,60,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:D(ok), 2014:R(ok), 2020:R(no)"
+IA,False,3 de 6,50,"1990:D(ok), 1996:D(no), 2002:D(no), 2008:D(ok), 2014:R(ok), 2020:R(no)"
+GA,False,3 de 6,50,"1990:D(ok), 1996:D(no), 2002:R(ok), 2008:R(no), 2014:R(ok), 2020:R(no)"
+MT,False,3 de 6,50,"1990:D(ok), 1996:D(no), 2002:D(no), 2008:D(ok), 2014:R(ok), 2020:R(no)"
+MI,False,3 de 6,50,"1990:D(ok), 1996:D(no), 2002:D(no), 2008:D(ok), 2014:D(no), 2020:D(ok)"
+ME,False,3 de 6,50,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:R(no), 2014:R(ok), 2020:R(no)"
+TX,False,3 de 6,50,"1990:R(no), 1996:R(ok), 2002:R(ok), 2008:R(no), 2014:R(ok), 2020:R(no)"
