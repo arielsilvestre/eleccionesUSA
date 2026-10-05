@@ -594,7 +594,7 @@ Abrir `DECISIONES.md` y agregar al final:
 lo que permite calcular cambio interanual (YoY) desde el año previo
 y tener contexto del ciclo electoral pasado. El endpoint BLS v2 permite
 hasta 20 años por request; 4 años es conservador y suficiente para el
-análisis de fundamentals.
+análisis de condiciones de fondo.
 
 **Alternativas consideradas:**
 - 2020–2026: incluiría el año pre-pandemia de recuperación, pero agrega

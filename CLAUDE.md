@@ -35,7 +35,7 @@ ese control.
 - **Datasets fuera de scope:** Census ACS 1-year. No usarlo salvo pedido
   explícito del usuario; mencionarlo solo como limitación o extensión futura.
 - **Sin polling:** no usar encuestas, Cook Political Report, Sabato's Crystal
-  Ball ni generic ballot polls. El análisis es de *fundamentals* estructurales
+  Ball ni generic ballot polls. El análisis es de *condiciones de fondo*
   (historial electoral + economía), no de intención de voto directa. Declarar
   esta limitación en el output final.
 

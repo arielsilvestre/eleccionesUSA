@@ -44,7 +44,7 @@ Resultado: **34 estados** identificados → **11 clasificados como swing**.
 | Contexto económico | BLS API (LAUS + CPI) | Desempleo e inflación, nacional y por estado swing |
 | Validación | FEC + House.gov Election Statistics | Cruce y verificación de resultados MIT |
 
-El análisis se basa en **fundamentals estructurales** (historial + economía). **No se usan encuestas**, Cook Political Report, Sabato's Crystal Ball ni generic ballot polls. Esta limitación se declara explícitamente en el output final.
+El análisis se basa en **condiciones de fondo** (historial + economía). **No se usan encuestas**, Cook Political Report, Sabato's Crystal Ball ni generic ballot polls. Esta limitación se declara explícitamente en el output final.
 
 ---
 

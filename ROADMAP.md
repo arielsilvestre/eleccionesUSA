@@ -72,7 +72,7 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
 - [ ] **6.1** Exportar tabla House swing + contexto económico a CSV final
 - [ ] **6.2** Exportar tabla Senate swing + contexto económico a CSV final
 - [ ] **6.3** Redactar síntesis con limitaciones explícitas (sin polling,
-      análisis de fundamentals únicamente)
+      análisis de condiciones de fondo únicamente)
 
 ---
 

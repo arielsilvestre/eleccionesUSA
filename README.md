@@ -4,7 +4,7 @@ Proyecto de análisis electoral para evaluar si el Partido Republicano
 retiene la mayoría en House y Senate en las elecciones de medio término
 del 3 de noviembre de 2026.
 
-El análisis se basa en **fundamentals estructurales**: historial electoral
+El análisis se basa en **condiciones de fondo**: historial electoral
 (MIT Election Lab) e indicadores económicos (BLS). No se usan encuestas
 ni modelos de intención de voto directa.
 

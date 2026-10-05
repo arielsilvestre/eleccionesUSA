@@ -133,7 +133,7 @@ consultas históricas.
 lo que permite calcular cambio interanual (YoY) desde el año previo
 y tener contexto del ciclo electoral pasado. El endpoint BLS v2 permite
 hasta 20 años por request; 4 años es conservador y suficiente para el
-análisis de fundamentals.
+análisis de condiciones de fondo.
 
 **Alternativas consideradas:**
 - 2020–2026: incluiría el año pre-pandemia de recuperación, pero agrega
@@ -159,7 +159,7 @@ en verano) que no refleja condiciones económicas percibidas por el electorado.
 **Nota:** LAUS (desempleo estatal) usa la serie no ajustada estacionalmente
 (LAUST, prefijo U), ya que no hay disponibilidad de series LAUS SA para
 todos los estados en el rango requerido. Esta asimetría SA/NSA entre CPI y
-LAUS es aceptable para el análisis de fundamentals a nivel anual/trimestral.
+LAUS es aceptable para el análisis de condiciones de fondo a nivel anual/trimestral.
 
 **Alternativa descartada:** CUUR0000SA0 (not seasonally adjusted) — descartada
 por introducir ruido estacional irrelevante para la predicción electoral.
@@ -247,7 +247,7 @@ no hay 6 midterms disponibles en un rango razonable.
 - score_bellwether × 0.20
 
 **Justificación:** el histórico electoral es el predictor más robusto en
-modelos de fundamentals (base empírica amplia). El contexto económico es
+modelos de condiciones de fondo (base empírica amplia). El contexto económico es
 el segundo predictor clásico en la literatura de voto económico. El bellwether
 es una señal complementaria, no un eje primario — de ahí su peso menor.
 
@@ -285,7 +285,7 @@ para el TP.
 
 **Justificación:** son tareas de validación, no de análisis primario. Los
 datos MIT Election Lab son suficientemente confiables para el análisis de
-fundamentals. Para un TP que no requiere publicación ni auditoría externa,
+condiciones de fondo. Para un TP que no requiere publicación ni auditoría externa,
 la validación cruzada es un plus, no un requisito.
 
 ---
