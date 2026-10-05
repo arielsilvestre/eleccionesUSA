@@ -29,6 +29,8 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
       (umbral: <10 pp ó al menos un flip + filtro D-02 redistricting — House: 74 distritos / Senate: 11 estados Class 2)
 - [x] **2.4** Exportar lista de swings — `output/house_swing_2026.csv` y `output/senate_swing_2026.csv`
 - [ ] **2.5** Cruzar resultados MIT contra FEC y House.gov; documentar discrepancias
+- [ ] **2.6** Script bellwether: calcular coincidencia histórica por estado swing
+      Senate (Class 2, ciclos 1990–2020) → `output/senate_bellwether.csv`
 
 ---
 
@@ -57,6 +59,8 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
 
 - [ ] **5.1** Query: ranking de competitividad House por distrito (histórico MIT)
 - [ ] **5.2** Query: ranking de competitividad Senate por estado (histórico MIT)
+- [ ] **5.3** Script scoring: combinar score histórico + económico + bellwether
+      → `output/senate_analysis_2026.csv` con tabla maestra Senate
 - [ ] **5.3** Cruzar indicadores BLS con distritos/estados swing
 - [ ] **5.4** Definir métrica de riesgo para el oficialismo por escaño
 - [ ] **5.5** Sumar escaños en riesgo → proyección de control por cámara
