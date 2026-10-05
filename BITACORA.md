@@ -98,3 +98,52 @@ inicio de cada sesión y después de cada hito relevante.
 2. Tarea 2.5 (cruce MIT vs FEC/House.gov) puede hacerse antes de Fase 4.
 
 ---
+
+## Sesión 3 — 05/10/2026
+
+### Decisiones estratégicas
+
+- Incorporado análisis **bellwether** como tercer eje de la matriz de scoring
+  (D-09 a D-16), inspirado en el concepto de estado "anunciador" de resultado.
+- Enfoque elegido: indicador de control de mayoría (Opción A) — no tracking de
+  swing de margen. Solo aplicado a Senate.
+- **Railway/PostgreSQL postergado** (D-14): CSVs locales son suficientes para el TP.
+- **FEC y House.gov postergados** (D-15): no son necesarios para el análisis primario.
+- **Entregable final redefinido** (D-16): CSVs de análisis + PPT separado.
+
+### Diseño y documentación
+
+- Brainstorming y diseño completo de la matriz de scoring Senate.
+- Escrito spec en `docs/superpowers/specs/2026-10-05-scoring-senate-design.md`.
+- Plan de implementación en `docs/superpowers/plans/2026-10-05-scoring-senate.md`.
+- Registradas decisiones D-09 a D-16 en `DECISIONES.md`.
+- Corregido error en D-12 (años Class 2 correctos: 1990, 1996, 2002, 2008, 2014, 2020).
+
+### Scripts creados
+
+- `analysis/analisis_03_bellwether.py` — tarea 2.6: coincidencia bellwether
+  Class 2 por estado (1990–2020). Tests: 15/15.
+- `analysis/analisis_04_scoring.py` — tarea 5.3: scores 0-100 y tabla maestra
+  Senate. Tests: 30/30.
+
+### Outputs generados
+
+- `output/senate_bellwether.csv` — 11 estados: 5 bellwether (CO 5/6, NM/MN/NH/NC 4/6)
+- `output/senate_analysis_2026.csv` — tabla maestra final:
+  - Favorable D: MI (73.0), CO (67.1)
+  - Disputado: TX (59.5), NC (56.5), MT (43.7), MN (43.0), GA (42.7)
+  - Favorable R: NM (38.7), NH (38.4), IA (20.2), ME (17.8)
+
+### Estado al cierre de sesión
+
+- Tareas 2.6 y 5.3 completadas.
+- Pendientes: 1.3, 1.6 (Railway), 1.7, 1.8, 2.5, 5.1, 5.2, 5.4, 5.5, Fase 6.
+
+### Próxima sesión
+
+1. Definir métricas de riesgo para House (tareas 5.1, 5.2, 5.4, 5.5) si se decide
+   completar el análisis House también.
+2. Sintetizar hallazgos para el PPT (Fase 6).
+3. Railway puede incorporarse si se quiere una "fase de producción" con dashboard.
+
+---
