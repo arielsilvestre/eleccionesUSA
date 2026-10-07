@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Midterms 2026 — Análisis de Condiciones de Fondo</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Reveal.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D2B5E;
+      --cream:  #F5F0E8;
+      --gold:   #C9A84C;
+      --carbon: #2C2C2C;
+      --red:    #8B1A1A;
+      --blue:   #1A4A8A;
+      --amber:  #D4830A;
+
+      --navy-light: #1A3B74;
+      --gold-dim:   rgba(201,168,76,0.15);
+      --cream-70:   rgba(245,240,232,0.70);
+      --cream-50:   rgba(245,240,232,0.50);
+      --cream-80:   rgba(245,240,232,0.80);
+
+      --font-title: 'Playfair Display', Georgia, serif;
+      --font-body:  'Crimson Pro', Georgia, serif;
+      --font-mono:  'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: var(--navy);
+      font-family: var(--font-body);
+      color: var(--carbon);
+    }
+
+    .reveal {
+      font-family: var(--font-body);
+    }
+
+    /* Remove default reveal styles */
+    .reveal .slides { text-align: left; }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: var(--font-title);
+      text-transform: none;
+      letter-spacing: 0.01em;
+    }
+
+    /* ============================================================
+       SLIDE BASE VARIANTS
+    ============================================================ */
+    .slide-dark {
+      background-color: var(--navy);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide-light {
+      background-color: var(--cream);
+      color: var(--carbon);
+      position: relative;
+    }
+
+    /* Diagonal lines pattern on dark slides */
+    .slide-dark::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.03) 0px,
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 14px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* All direct children of a slide go above the pattern */
+    .slide-dark > *, .slide-light > * { position: relative; z-index: 1; }
+
+    /* ============================================================
+       GOLD DIVIDERS
+    ============================================================ */
+    .gold-line {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: var(--gold);
+      margin: 0.55em 0;
+      opacity: 0.85;
+    }
+
+    .gold-line--short {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      display: block;
+      margin: 0.4em 0;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY HELPERS
+    ============================================================ */
+    .supra {
+      font-family: var(--font-body);
+      font-size: 0.65em;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .t-cream   { color: var(--cream); }
+    .t-gold    { color: var(--gold); }
+    .t-navy    { color: var(--navy); }
+    .t-carbon  { color: var(--carbon); }
+    .t-cream70 { color: var(--cream-70); }
+    .t-cream50 { color: var(--cream-50); }
+    .t-cream80 { color: var(--cream-80); }
+
+    .italic { font-style: italic; }
+    .mono   { font-family: var(--font-mono); }
+
+    /* ============================================================
+       DECK LAYOUT UTILITIES
+    ============================================================ */
+    .deck-pad {
+      padding: 3.2% 6% 2.4% 6%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2em;
+    }
+
+    .col-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.4em;
+    }
+
+    /* ============================================================
+       SLIDE 1 — PORTADA
+    ============================================================ */
+    .cover-bg-year {
+      position: absolute;
+      font-family: var(--font-title);
+      font-weight: 900;
+      font-size: 38vw;
+      color: var(--cream);
+      opacity: 0.045;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .cover-block {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2em 10%;
+    }
+
+    .cover-title {
+      font-family: var(--font-title);
+      font-size: 4.8em;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.05;
+      margin: 0.15em 0;
+    }
+
+    .cover-subtitle {
+      font-family: var(--font-title);
+      font-size: 1.55em;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--cream-80);
+      margin: 0.3em 0 0.6em;
+    }
+
+    .cover-desc {
+      font-size: 0.85em;
+      color: var(--cream-70);
+      letter-spacing: 0.06em;
+    }
+
+    .cover-footer {
+      font-size: 0.7em;
+      color: var(--cream-50);
+      text-align: center;
+      margin-top: auto;
+      padding-bottom: 0.5em;
+      letter-spacing: 0.05em;
+    }
+
+    .cover-wrap {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      gap: 0;
+    }
+
+    /* ============================================================
+       SECTION TITLE
+    ============================================================ */
+    .slide-heading {
+      font-family: var(--font-title);
+      font-size: 1.9em;
+      font-weight: 600;
+      margin-bottom: 0.1em;
+    }
+
+    .slide-heading--light { color: var(--cream); }
+    .slide-heading--dark  { color: var(--navy); }
+
+    /* ============================================================
+       CARDS
+    ============================================================ */
+    .card {
+      border-radius: 3px;
+      padding: 1.1em 1.2em;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    }
+
+    .card--dark {
+      background: rgba(255,255,255,0.04);
+      border-top: 2.5px solid var(--gold);
+      border-left: 1px solid rgba(201,168,76,0.25);
+      border-right: 1px solid rgba(201,168,76,0.25);
+      border-bottom: 1px solid rgba(201,168,76,0.12);
+      color: var(--cream);
+    }
+
+    .card--light {
+      background: #fff;
+      border: 1px solid rgba(13,43,94,0.12);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+
+    .card--gold-border {
+      border: 2px solid var(--gold);
+      background: var(--gold-dim);
+      padding: 0.8em 1.1em;
+      border-radius: 3px;
+    }
+
+    .card__title {
+      font-family: var(--font-title);
+      font-size: 0.98em;
+      font-weight: 700;
+      margin-bottom: 0.45em;
+      color: var(--gold);
+    }
+
+    .card__item {
+      font-size: 0.72em;
+      line-height: 1.55;
+      color: var(--cream-80);
+    }
+
+    .card__label {
+      font-size: 0.6em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      font-family: var(--font-body);
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       TABLES
+    ============================================================ */
+    table.academic {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-body);
+      font-size: 0.72em;
+    }
+
+    table.academic thead tr {
+      background: var(--navy);
+      color: var(--gold);
+    }
+
+    table.academic thead th {
+      padding: 0.55em 0.75em;
+      font-family: var(--font-body);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-align: left;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    table.academic tbody tr:nth-child(even) {
+      background: rgba(13,43,94,0.04);
+    }
+
+    table.academic tbody td {
+      padding: 0.42em 0.75em;
+      border-bottom: 1px solid rgba(13,43,94,0.08);
+      color: var(--carbon);
+      vertical-align: middle;
+    }
+
+    table.academic--dark thead tr {
+      background: rgba(201,168,76,0.18);
+      color: var(--gold);
+    }
+
+    table.academic--dark thead th {
+      border-bottom: 2px solid var(--gold);
+    }
+
+    table.academic--dark tbody tr:nth-child(even) {
+      background: rgba(255,255,255,0.04);
+    }
+
+    table.academic--dark tbody td {
+      color: var(--cream-80);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    /* Classification badges */
+    .badge {
+      display: inline-block;
+      padding: 0.18em 0.55em;
+      border-radius: 2px;
+      font-size: 0.9em;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge--fav-d  { background: var(--blue); color: #fff; }
+    .badge--disp   { background: var(--amber); color: #fff; }
+    .badge--fav-r  { background: var(--red); color: #fff; }
+
+    .badge--presion { background: #1A4A8A; color: #fff; }
+    .badge--neutro  { background: #707070; color: #fff; }
+    .badge--fav-of  { background: #7A2020; color: #fff; }
+
+    /* ============================================================
+       SLIDE 2 — PREGUNTA
+    ============================================================ */
+    .question-big {
+      font-family: var(--font-title);
+      font-size: 2.0em;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.25;
+      padding: 0.2em 4%;
+    }
+
+    .question-col-title {
+      font-family: var(--font-title);
+      font-size: 0.9em;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.3em;
+    }
+
+    .question-col-deco {
+      font-family: var(--font-title);
+      font-size: 3em;
+      font-weight: 900;
+      color: var(--gold);
+      opacity: 0.5;
+      line-height: 1;
+      margin-bottom: 0.1em;
+    }
+
+    .question-col-text {
+      font-size: 0.73em;
+      color: var(--carbon);
+      line-height: 1.55;
+    }
+
+    .footnote {
+      font-size: 0.62em;
+      font-style: italic;
+      color: rgba(44,44,44,0.55);
+      margin-top: auto;
+      padding-top: 0.5em;
+    }
+
+    .footnote--light {
+      color: var(--cream-50);
+    }
+
+    /* ============================================================
+       SLIDE 3 — METODOLOGÍA
+    ============================================================ */
+    .formula-box {
+      text-align: center;
+      margin-top: 0.7em;
+      padding: 0.55em 1em;
+    }
+
+    .formula-text {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       SLIDE 5 — MAPA DISTRIBUCIÓN
+    ============================================================ */
+    .dist-card {
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+      padding: 0.55em 0.8em;
+      border-radius: 3px;
+      margin-bottom: 0.45em;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.10);
+    }
+
+    .dist-card__num {
+      font-family: var(--font-title);
+      font-size: 1.9em;
+      font-weight: 900;
+      min-width: 2em;
+      text-align: right;
+      line-height: 1;
+    }
+
+    .dist-card__label {
+      font-family: var(--font-body);
+      font-size: 0.78em;
+      line-height: 1.3;
+    }
+
+    /* ============================================================
+       SLIDE 6 — BELLWETHER
+    ============================================================ */
+    .bw-highlight {
+      border: 2px solid var(--gold);
+      background: rgba(201,168,76,0.08);
+      padding: 0.75em 1em;
+      border-radius: 3px;
+      font-size: 0.75em;
+      color: var(--cream-80);
+      line-height: 1.55;
+      font-style: italic;
+      margin-top: 0.7em;
+    }
+
+    .bw-def {
+      font-size: 0.78em;
+      font-style: italic;
+      color: var(--cream-70);
+      line-height: 1.5;
+      margin-bottom: 0.6em;
+    }
+
+    /* ============================================================
+       SLIDE 7 — HOUSE
+    ============================================================ */
+    .big-stat-card {
+      border-radius: 4px;
+      padding: 1.3em 1em 1.1em;
+      text-align: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      border: 1px solid rgba(13,43,94,0.1);
+      background: #fff;
+    }
+
+    .big-stat-card__num {
+      font-family: var(--font-title);
+      font-size: 4.2em;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 0.05em;
+    }
+
+    .big-stat-card__class {
+      font-size: 0.75em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.2em;
+    }
+
+    .big-stat-card__desc {
+      font-size: 0.62em;
+      color: rgba(44,44,44,0.6);
+      line-height: 1.4;
+    }
+
+    .big-stat-card--d {
+      border-top: 4px solid var(--blue);
+    }
+
+    .big-stat-card--disp {
+      border-top: 4px solid var(--amber);
+    }
+
+    .big-stat-card--r {
+      border-top: 4px solid var(--red);
+    }
+
+    /* ============================================================
+       SLIDE 8 — ECONOMÍA
+    ============================================================ */
+    .ref-box {
+      background: rgba(201,168,76,0.15);
+      border: 1.5px solid var(--gold);
+      padding: 0.5em 1em;
+      border-radius: 3px;
+      font-size: 0.75em;
+      color: var(--cream);
+      display: inline-block;
+      margin-bottom: 0.6em;
+    }
+
+    /* ============================================================
+       SLIDE 9 — SÍNTESIS
+    ============================================================ */
+    .synthesis-col {
+      padding: 0.9em 1em;
+      background: rgba(13,43,94,0.04);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .synthesis-col__title {
+      font-family: var(--font-title);
+      font-size: 0.88em;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.55em;
+      letter-spacing: 0.02em;
+    }
+
+    .synthesis-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .synthesis-col ul li {
+      font-size: 0.68em;
+      line-height: 1.55;
+      padding: 0.25em 0 0.25em 1.1em;
+      position: relative;
+      color: var(--carbon);
+      border-bottom: 1px solid rgba(13,43,94,0.06);
+    }
+
+    .synthesis-col ul li:last-child {
+      border-bottom: none;
+    }
+
+    .synthesis-col ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.85em;
+      top: 0.3em;
+    }
+
+    .conclusion-box {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 0.75em 1.2em;
+      border-radius: 3px;
+      font-size: 0.72em;
+      line-height: 1.55;
+      margin-top: 0.8em;
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    }
+
+    /* ============================================================
+       SLIDE 10 — LIMITACIONES
+    ============================================================ */
+    .limit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5em 0;
+    }
+
+    .limit-list li {
+      font-size: 0.71em;
+      line-height: 1.55;
+      padding: 0.35em 0 0.35em 1.4em;
+      position: relative;
+      color: var(--cream-80);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .limit-list li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 0.9em;
+      top: 0.38em;
+    }
+
+    .sources-block {
+      margin-top: 0.5em;
+    }
+
+    .sources-block__title {
+      font-family: var(--font-body);
+      font-size: 0.62em;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 0.4em;
+      font-weight: 600;
+    }
+
+    .source-item {
+      font-size: 0.62em;
+      color: var(--cream-70);
+      line-height: 1.6;
+      padding: 0.15em 0;
+      font-family: var(--font-body);
+    }
+
+    .source-item .mono {
+      font-size: 0.9em;
+      color: var(--gold);
+      opacity: 0.85;
+    }
+
+    .final-footer {
+      font-size: 0.58em;
+      font-style: italic;
+      color: var(--cream-50);
+      margin-top: auto;
+      padding-top: 0.5em;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       NAVIGATION CONTROLS
+    ============================================================ */
+    .nav-controls {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.2em;
+      z-index: 9999;
+    }
+
+    .nav-btn {
+      background: rgba(13,43,94,0.88);
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.2s, color 0.2s;
+      font-family: var(--font-mono);
+    }
+
+    .nav-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      color: var(--gold);
+      background: rgba(13,43,94,0.88);
+      padding: 0.3em 0.8em;
+      border-radius: 12px;
+      border: 1px solid rgba(201,168,76,0.4);
+      min-width: 52px;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       REVEAL OVERRIDES
+    ============================================================ */
+    .reveal .progress {
+      color: var(--gold);
+      height: 3px;
+    }
+
+    .reveal .controls {
+      display: none !important;
+    }
+
+    /* Ensure slides fill the viewport */
+    .reveal .slides section {
+      height: 100vh;
+      top: 0 !important;
+      padding: 0;
+    }
+
+    .reveal .slides section.present,
+    .reveal .slides section.past,
+    .reveal .slides section.future {
+      height: 100%;
+    }
+
+    /* ============================================================
+       MISC
+    ============================================================ */
+    .mt-auto { margin-top: auto; }
+    .mt-sm   { margin-top: 0.4em; }
+    .mt-md   { margin-top: 0.7em; }
+    .mt-lg   { margin-top: 1.1em; }
+    .mb-sm   { margin-bottom: 0.4em; }
+    .mb-md   { margin-bottom: 0.7em; }
+
+    .text-center { text-align: center; }
+    .text-sm     { font-size: 0.72em; }
+    .text-xs     { font-size: 0.62em; }
+
+    .fw-600 { font-weight: 600; }
+    .fw-700 { font-weight: 700; }
+
+    /* flex helpers */
+    .flex-col   { display: flex; flex-direction: column; }
+    .flex-grow  { flex-grow: 1; }
+    .justify-center { justify-content: center; }
+    .align-center   { align-items: center; }
+
+    /* Deco number behind some slides */
+    .deco-num {
+      position: absolute;
+      font-family: var(--font-title);
+      font-weight: 900;
+      color: var(--cream);
+      opacity: 0.04;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      line-height: 1;
+    }
+
+    /* tight list */
+    .tight-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tight-list li {
+      font-size: 0.7em;
+      line-height: 1.5;
+      padding: 0.2em 0 0.2em 1.1em;
+      position: relative;
+      color: var(--cream-80);
+    }
+
+    .tight-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-size: 1.3em;
+      top: 0.05em;
+    }
+
+    /* ============================================================
+       RESPONSIVE ADJUSTMENTS
+    ============================================================ */
+    @media (max-height: 650px) {
+      .deck-pad { padding: 1.8% 5% 1.4% 5%; }
+      .cover-title { font-size: 3.4em; }
+      .slide-heading { font-size: 1.55em; }
+      table.academic { font-size: 0.63em; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================================
+         SLIDE 1 — PORTADA
+    ============================================================ -->
+    <section>
+      <div class="slide-dark" style="height:100vh; display:flex; flex-direction:column; justify-content:space-between; padding: 3% 6%;">
+        <div class="cover-bg-year">2026</div>
+
+        <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; z-index:2;">
+          <span class="supra" style="letter-spacing:0.22em; font-size:0.68em;">ANÁLISIS DE CONDICIONES DE FONDO</span>
+          <span class="gold-line" style="margin:0.6em 0; max-width:380px;"></span>
+          <h1 class="cover-title">Midterms 2026</h1>
+          <p class="cover-subtitle">¿Retiene el Partido Republicano la mayoría en el Congreso?</p>
+          <span class="gold-line" style="margin:0.6em 0; max-width:380px;"></span>
+          <p class="cover-desc">Historial electoral &nbsp;·&nbsp; Economía &nbsp;·&nbsp; Indicadores bellwether</p>
+        </div>
+
+        <p class="cover-footer" style="position:relative;z-index:2;">
+          Universidad &nbsp;·&nbsp; Ciencias Políticas &nbsp;·&nbsp; Octubre 2026
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2 — PREGUNTA DE INVESTIGACIÓN
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <!-- decorative big deco -->
+        <div class="deco-num" style="font-size:28vw; bottom:-8%; right:-2%; color:var(--navy);">?</div>
+
+        <div class="flex-col" style="height:100%;">
+          <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">PREGUNTA DE INVESTIGACIÓN</p>
+          <span class="gold-line--short"></span>
+
+          <div class="question-big" style="margin:0.55em 0 0.3em;">
+            ¿Qué dicen las condiciones de fondo sobre las chances del oficialismo?
+          </div>
+
+          <span class="gold-line" style="margin:0.4em 0;"></span>
+
+          <div class="col-3" style="margin-top:0.9em; flex-grow:1; align-items:start;">
+            <!-- col 1 -->
+            <div class="card card--light">
+              <div class="question-col-deco">C</div>
+              <div class="question-col-title">Cámaras analizadas</div>
+              <span class="gold-line--short" style="background:var(--gold); opacity:0.5;"></span>
+              <p class="question-col-text">
+                <strong>House of Representatives</strong><br>
+                435 bancas en juego<br><br>
+                <strong>Senate</strong><br>
+                33 escaños Class 2 en juego
+              </p>
+            </div>
+            <!-- col 2 -->
+            <div class="card card--light">
+              <div class="question-col-deco">V</div>
+              <div class="question-col-title">Criterio de victoria</div>
+              <span class="gold-line--short" style="background:var(--gold); opacity:0.5;"></span>
+              <p class="question-col-text">
+                Retención de <strong>mayoría por cámara</strong><br><br>
+                No net seat change.<br>
+                No voto popular agregado.
+              </p>
+            </div>
+            <!-- col 3 -->
+            <div class="card card--light">
+              <div class="question-col-deco">G</div>
+              <div class="question-col-title">Alcance geográfico</div>
+              <span class="gold-line--short" style="background:var(--gold); opacity:0.5;"></span>
+              <p class="question-col-text">
+                <strong>74</strong> distritos House swing<br><br>
+                <strong>11</strong> estados Senate swing<br>
+                (Class 2, ciclo 2026)
+              </p>
+            </div>
+          </div>
+
+          <p class="footnote" style="margin-top:0.9em;">
+            Sin encuestas. Sin intención de voto. Análisis de condiciones estructurales.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 3 — METODOLOGÍA
+    ============================================================ -->
+    <section>
+      <div class="slide-dark deck-pad" style="height:100vh;">
+        <div class="deco-num" style="font-size:22vw; top:5%; right:-3%;">Σ</div>
+
+        <p class="supra" style="letter-spacing:0.15em; font-size:0.6em;">METODOLOGÍA</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--light" style="margin-bottom:0.2em;">Tres ejes de análisis</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.7em;"></span>
+
+        <div class="col-3" style="flex-grow:1; align-items:stretch;">
+          <!-- card 1 -->
+          <div class="card card--dark flex-col">
+            <div class="card__title">I. Historial electoral</div>
+            <div class="card__label" style="margin-bottom:0.5em;">Peso Senate: 50% &nbsp;·&nbsp; House: 60%</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Fuente: MIT Election Lab 1976–2024</li>
+              <li>Métrica: margen promedio two-party en ciclos recientes por distrito/estado</li>
+              <li>Mide: competitividad histórica estructural</li>
+            </ul>
+          </div>
+          <!-- card 2 -->
+          <div class="card card--dark flex-col">
+            <div class="card__title">II. Condiciones económicas</div>
+            <div class="card__label" style="margin-bottom:0.5em;">Peso Senate: 30% &nbsp;·&nbsp; House: 40%</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Fuente: BLS LAUS agosto 2026</li>
+              <li>Métrica: desempleo estatal vs. media nacional (4.4%) + variación interanual</li>
+              <li>Mide: presión económica sobre el oficialismo</li>
+            </ul>
+          </div>
+          <!-- card 3 -->
+          <div class="card card--dark flex-col">
+            <div class="card__title">III. Indicador bellwether</div>
+            <div class="card__label" style="margin-bottom:0.5em;">Peso Senate: 20% &nbsp;·&nbsp; House: N/A</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Ciclos analizados: 1990–2020 (Class 2)</li>
+              <li>Métrica: coincidencia entre resultado del estado y control del Senado</li>
+              <li>Mide: capacidad predictiva histórica del estado</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="formula-box">
+          <span class="gold-line" style="margin-bottom:0.6em;"></span>
+          <p class="formula-text">Score = Σ(peso × componente) &nbsp;→&nbsp; 0 – 100</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 4 — SENATE: 11 ESTADOS EN JUEGO
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">SENATE — ANÁLISIS DE SWING STATES</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--dark" style="margin-bottom:0.15em;">Senate — 11 estados swing Class 2</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.6em;"></span>
+
+        <table class="academic" style="flex-grow:1;">
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th>Titular 2020</th>
+              <th>Tendencia histórica</th>
+              <th style="text-align:center;">Score total</th>
+              <th>Clasificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono fw-600">MI</span></td>
+              <td>D</td>
+              <td>Disputado</td>
+              <td style="text-align:center;" class="mono">73.0</td>
+              <td><span class="badge badge--fav-d">Favorable D</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">CO</span></td>
+              <td>D</td>
+              <td>Leve D</td>
+              <td style="text-align:center;" class="mono">67.1</td>
+              <td><span class="badge badge--fav-d">Favorable D</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">TX</span></td>
+              <td>R</td>
+              <td>Leve R</td>
+              <td style="text-align:center;" class="mono">59.5</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NC</span></td>
+              <td>R</td>
+              <td>Disputado</td>
+              <td style="text-align:center;" class="mono">56.5</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">MT</span></td>
+              <td>R</td>
+              <td>Disputado</td>
+              <td style="text-align:center;" class="mono">43.7</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">MN</span></td>
+              <td>D</td>
+              <td>Sólido D</td>
+              <td style="text-align:center;" class="mono">43.0</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">GA</span></td>
+              <td>R</td>
+              <td>Leve R</td>
+              <td style="text-align:center;" class="mono">42.7</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NM</span></td>
+              <td>D</td>
+              <td>Sólido D</td>
+              <td style="text-align:center;" class="mono">38.7</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NH</span></td>
+              <td>D</td>
+              <td>Leve D</td>
+              <td style="text-align:center;" class="mono">38.4</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">IA</span></td>
+              <td>R</td>
+              <td>Sólido R</td>
+              <td style="text-align:center;" class="mono">20.2</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">ME</span></td>
+              <td>R</td>
+              <td>Sólido R</td>
+              <td style="text-align:center;" class="mono">17.8</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="footnote" style="margin-top:0.55em;">
+          Titular = partido ganador del escaño en la elección 2020. Score &gt; 60 = presión sobre el oficialismo R.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 5 — SENATE: MAPA 50 ESTADOS
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">SENATE — PANORAMA NACIONAL</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--dark" style="margin-bottom:0.15em;">Senate 2026 — Distribución de los 50 estados</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.7em;"></span>
+
+        <div class="col-2" style="flex-grow:1; align-items:start;">
+          <!-- left column: distribution cards -->
+          <div class="flex-col" style="gap:0.38em;">
+            <!-- Sólido R -->
+            <div class="dist-card" style="background:#B71C1C; color:#fff;">
+              <div class="dist-card__num">15</div>
+              <div class="dist-card__label"><strong>Sólido R</strong><br>Condiciones históricas firmemente republicanas</div>
+            </div>
+            <!-- No votan -->
+            <div class="dist-card" style="background:#607D8B; color:#fff;">
+              <div class="dist-card__num">17</div>
+              <div class="dist-card__label"><strong>No votan en 2026</strong><br>Classes 1 y 3 — no tienen escaño en juego este ciclo</div>
+            </div>
+            <!-- Sólido D -->
+            <div class="dist-card" style="background:#0D47A1; color:#fff;">
+              <div class="dist-card__num">7</div>
+              <div class="dist-card__label"><strong>Sólido D</strong><br>Condiciones históricas firmemente demócratas</div>
+            </div>
+            <!-- Disputado -->
+            <div class="dist-card" style="background:#FFD600; color:#2C2C2C;">
+              <div class="dist-card__num">5</div>
+              <div class="dist-card__label"><strong>Disputado</strong><br>Sin tendencia definida — resultado abierto</div>
+            </div>
+            <!-- Favorable R -->
+            <div class="dist-card" style="background:#FF8F00; color:#fff;">
+              <div class="dist-card__num">4</div>
+              <div class="dist-card__label"><strong>Favorable R</strong><br>Condiciones inclinan hacia el oficialismo</div>
+            </div>
+            <!-- Favorable D -->
+            <div class="dist-card" style="background:#2196F3; color:#fff;">
+              <div class="dist-card__num">2</div>
+              <div class="dist-card__label"><strong>Favorable D</strong><br>Condiciones inclinan hacia la oposición</div>
+            </div>
+          </div>
+
+          <!-- right column: interpretation -->
+          <div class="flex-col" style="gap:0.8em; padding-top:0.2em;">
+            <div class="card card--light" style="padding:1em 1.1em;">
+              <div class="card__title" style="color:var(--navy); font-size:0.85em; margin-bottom:0.5em;">Lectura de los datos</div>
+              <p style="font-size:0.71em; line-height:1.6; color:var(--carbon);">
+                De los <strong>11 estados en juego</strong>, 4 muestran condiciones <em>Favorable R</em>,
+                5 son disputados y 2 muestran presión sobre el oficialismo (<em>Favorable D</em>).
+              </p>
+            </div>
+            <div class="card card--light" style="padding:1em 1.1em;">
+              <div class="card__title" style="color:var(--navy); font-size:0.85em; margin-bottom:0.5em;">Contexto del mapa</div>
+              <p style="font-size:0.71em; line-height:1.6; color:var(--carbon);">
+                Los 15 estados <em>Sólido R</em> más los 4 <em>Favorable R</em>
+                constituyen la base estructural del oficialismo.
+                Los 17 estados que no votan este ciclo (Classes 1 y 3)
+                mantienen sus escaños actuales sin cambio.
+              </p>
+            </div>
+            <div class="card--gold-border" style="font-size:0.68em; color:var(--carbon); line-height:1.6;">
+              El mapa interactivo completo está disponible en
+              <span class="mono" style="color:var(--navy); font-size:0.92em;">senate_map_2026.html</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 6 — SENATE: BELLWETHER
+    ============================================================ -->
+    <section>
+      <div class="slide-dark deck-pad" style="height:100vh;">
+        <div class="deco-num" style="font-size:20vw; bottom:-5%; right:-2%;">B</div>
+
+        <p class="supra" style="letter-spacing:0.15em; font-size:0.6em;">SENATE — INDICADOR BELLWETHER</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--light" style="margin-bottom:0.2em;">Indicador Bellwether</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.5em;"></span>
+
+        <p class="bw-def">
+          Un estado <em>bellwether</em> es aquel cuyo resultado electoral históricamente coincide
+          con el control nacional de la cámara. Umbral: 4 o más coincidencias en 6 ciclos Class 2
+          (1990, 1996, 2002, 2008, 2014, 2020).
+        </p>
+
+        <table class="academic academic--dark" style="flex-grow:0;">
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th style="text-align:center;">Coincidencia Class 2</th>
+              <th style="text-align:center;">Score total</th>
+              <th>Clasificación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">CO</span></td>
+              <td style="text-align:center;" class="mono">5 de 6</td>
+              <td style="text-align:center;" class="mono">67.1</td>
+              <td><span class="badge badge--fav-d">Favorable D</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">MN</span></td>
+              <td style="text-align:center;" class="mono">4 de 6</td>
+              <td style="text-align:center;" class="mono">43.0</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NH</span></td>
+              <td style="text-align:center;" class="mono">4 de 6</td>
+              <td style="text-align:center;" class="mono">38.4</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NM</span></td>
+              <td style="text-align:center;" class="mono">4 de 6</td>
+              <td style="text-align:center;" class="mono">38.7</td>
+              <td><span class="badge badge--fav-r">Favorable R</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NC</span></td>
+              <td style="text-align:center;" class="mono">4 de 6</td>
+              <td style="text-align:center;" class="mono">56.5</td>
+              <td><span class="badge badge--disp">Disputado</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bw-highlight">
+          Los estados bellwether envían señales contradictorias: CO apunta a Favorable D
+          mientras NH y NM apuntan a Favorable R. El indicador no define una tendencia dominante.
+        </div>
+
+        <p class="footnote footnote--light" style="margin-top:0.5em;">
+          Los 6 estados sin condición bellwether (MI, TX, MT, GA, IA, ME) registran 3 de 6 coincidencias o menos.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 7 — HOUSE: PANORAMA
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">HOUSE OF REPRESENTATIVES</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--dark" style="margin-bottom:0.15em;">House of Representatives — 74 distritos competitivos</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.55em;"></span>
+
+        <!-- Big stat cards -->
+        <div class="col-3" style="margin-bottom:0.55em;">
+          <div class="big-stat-card big-stat-card--d">
+            <div class="big-stat-card__num" style="color:var(--blue);">29</div>
+            <div class="big-stat-card__class" style="color:var(--blue);">Favorable D</div>
+            <div class="big-stat-card__desc">Presión sobre el oficialismo R</div>
+          </div>
+          <div class="big-stat-card big-stat-card--disp">
+            <div class="big-stat-card__num" style="color:var(--amber);">33</div>
+            <div class="big-stat-card__class" style="color:var(--amber);">Disputados</div>
+            <div class="big-stat-card__desc">Sin tendencia definida</div>
+          </div>
+          <div class="big-stat-card big-stat-card--r">
+            <div class="big-stat-card__num" style="color:var(--red);">12</div>
+            <div class="big-stat-card__class" style="color:var(--red);">Favorable R</div>
+            <div class="big-stat-card__desc">El oficialismo tiene ventaja</div>
+          </div>
+        </div>
+
+        <p style="font-size:0.72em; color:var(--carbon); margin-bottom:0.5em;">
+          <strong>39% de los distritos swing</strong> muestran condiciones favorables a un cambio de partido
+        </p>
+
+        <!-- Top 8 table -->
+        <p style="font-size:0.62em; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); font-weight:600; margin-bottom:0.3em; font-family:var(--font-body);">
+          Top 8 distritos con mayor presión sobre el oficialismo (Favorable D)
+        </p>
+        <table class="academic">
+          <thead>
+            <tr>
+              <th>Distrito</th>
+              <th>Último ganador</th>
+              <th style="text-align:center;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono fw-600">CO-08</span></td><td>R</td><td class="mono" style="text-align:center;">85.6</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">AZ-01</span></td><td>R</td><td class="mono" style="text-align:center;">82.4</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">AZ-06</span></td><td>R</td><td class="mono" style="text-align:center;">81.8</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">CO-03</span></td><td>R</td><td class="mono" style="text-align:center;">74.2</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NM-02</span></td><td>D</td><td class="mono" style="text-align:center;">73.0</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">CT-05</span></td><td>D</td><td class="mono" style="text-align:center;">68.8</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NY-22</span></td><td>D</td><td class="mono" style="text-align:center;">68.0</td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600">NV-03</span></td><td>D</td><td class="mono" style="text-align:center;">68.0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 8 — CONDICIONES ECONÓMICAS
+    ============================================================ -->
+    <section>
+      <div class="slide-dark deck-pad" style="height:100vh;">
+        <div class="deco-num" style="font-size:22vw; top:2%; right:-4%;">%</div>
+
+        <p class="supra" style="letter-spacing:0.15em; font-size:0.6em;">CONDICIONES ECONÓMICAS</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--light" style="margin-bottom:0.2em;">Desempleo — agosto 2026</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.5em;"></span>
+
+        <div class="ref-box">
+          Media nacional de referencia: <span class="mono fw-600">4.4%</span>
+          &nbsp;&nbsp;(diciembre 2025, BLS LAUS)
+        </div>
+
+        <table class="academic academic--dark">
+          <thead>
+            <tr>
+              <th>Estado</th>
+              <th style="text-align:center;">Desempleo</th>
+              <th style="text-align:center;">Var. anual</th>
+              <th>Señal económica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">MI</span></td>
+              <td class="mono" style="text-align:center;">5.2%</td>
+              <td class="mono" style="text-align:center;">+0.3 pp</td>
+              <td><span class="badge badge--presion">Presión sobre oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NM</span></td>
+              <td class="mono" style="text-align:center;">4.9%</td>
+              <td class="mono" style="text-align:center;">+0.7 pp</td>
+              <td><span class="badge badge--presion">Presión sobre oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">MN</span></td>
+              <td class="mono" style="text-align:center;">4.8%</td>
+              <td class="mono" style="text-align:center;">+0.8 pp</td>
+              <td><span class="badge badge--presion">Presión sobre oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">CO</span></td>
+              <td class="mono" style="text-align:center;">4.6%</td>
+              <td class="mono" style="text-align:center;">+0.7 pp</td>
+              <td><span class="badge badge--presion">Presión sobre oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">TX</span></td>
+              <td class="mono" style="text-align:center;">4.6%</td>
+              <td class="mono" style="text-align:center;">0.0 pp</td>
+              <td><span class="badge badge--neutro">Neutro</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">ME</span></td>
+              <td class="mono" style="text-align:center;">3.1%</td>
+              <td class="mono" style="text-align:center;">+0.1 pp</td>
+              <td><span class="badge badge--neutro">Neutro</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">IA</span></td>
+              <td class="mono" style="text-align:center;">3.6%</td>
+              <td class="mono" style="text-align:center;">-0.2 pp</td>
+              <td><span class="badge badge--fav-of">Favorable al oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">GA</span></td>
+              <td class="mono" style="text-align:center;">3.4%</td>
+              <td class="mono" style="text-align:center;">-0.2 pp</td>
+              <td><span class="badge badge--fav-of">Favorable al oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">MT</span></td>
+              <td class="mono" style="text-align:center;">3.0%</td>
+              <td class="mono" style="text-align:center;">-0.2 pp</td>
+              <td><span class="badge badge--fav-of">Favorable al oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NC</span></td>
+              <td class="mono" style="text-align:center;">3.6%</td>
+              <td class="mono" style="text-align:center;">-0.5 pp</td>
+              <td><span class="badge badge--fav-of">Favorable al oficialismo</span></td>
+            </tr>
+            <tr>
+              <td><span class="mono fw-600" style="color:var(--cream);">NH</span></td>
+              <td class="mono" style="text-align:center;">2.8%</td>
+              <td class="mono" style="text-align:center;">-0.4 pp</td>
+              <td><span class="badge badge--fav-of">Favorable al oficialismo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 9 — SÍNTESIS Y CONCLUSIONES
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">SÍNTESIS</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--dark" style="margin-bottom:0.15em;">¿Qué dicen las condiciones de fondo?</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.6em;"></span>
+
+        <div class="col-2" style="flex-grow:1; align-items:stretch; gap:1.8em;">
+          <!-- Senate col -->
+          <div class="synthesis-col">
+            <div class="synthesis-col__title">SENATE</div>
+            <ul>
+              <li>R retiene ventaja estructural: 4 de 11 estados swing muestran condiciones Favorable R vs. 2 Favorable D.</li>
+              <li>5 estados disputados dependen de variables no capturadas por este análisis.</li>
+              <li>Los 15 estados Sólido R + 4 Favorable R son suficientes para retener mayoría si no hay sorpresas.</li>
+              <li>Mayor amenaza para R: MI (73.0) y CO (67.1) — titular D con economía en deterioro.</li>
+            </ul>
+          </div>
+          <!-- House col -->
+          <div class="synthesis-col">
+            <div class="synthesis-col__title">HOUSE</div>
+            <ul>
+              <li>74 de 435 distritos son competitivos (17% del total).</li>
+              <li>29 distritos Favorable D — suficientes para cambiar la mayoría si se traducen en votos.</li>
+              <li>Los distritos de AZ y CO (CO-08, AZ-01, AZ-06) son los más vulnerables para el oficialismo R.</li>
+              <li>12 distritos Favorable R ofrecen margen de error al oficialismo.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="conclusion-box">
+          Las condiciones de fondo sugieren un escenario <strong>competitivo en House</strong>
+          y <strong>ventaja moderada del oficialismo en Senate</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 10 — LIMITACIONES Y FUENTES
+    ============================================================ -->
+    <section>
+      <div class="slide-dark deck-pad" style="height:100vh;">
+        <p class="supra" style="letter-spacing:0.15em; font-size:0.6em;">LIMITACIONES Y FUENTES</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--light" style="margin-bottom:0.2em;">Limitaciones del análisis</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.55em;"></span>
+
+        <ul class="limit-list">
+          <li>Sin datos de encuestas ni intención de voto directa. El análisis mide condiciones estructurales, no comportamiento futuro.</li>
+          <li>El desempleo estatal agrega distritos con realidades económicas muy distintas.</li>
+          <li>No incluye financiamiento de campaña (FEC) ni perfil demográfico (Census ACS).</li>
+          <li>El indicador bellwether solo aplica a Senate Class 2; no existe equivalente para House.</li>
+          <li>Posibles redistrictings post-2024 pueden alterar la competitividad de algunos distritos House.</li>
+        </ul>
+
+        <span class="gold-line" style="margin:0.7em 0 0.5em;"></span>
+
+        <div class="sources-block">
+          <div class="sources-block__title">Fuentes</div>
+          <div class="source-item">
+            MIT Election Lab — Harvard Dataverse &nbsp;
+            <span class="mono">doi:10.7910/DVN/IG0UN2</span>
+            &nbsp;·&nbsp;
+            <span class="mono">doi:10.7910/DVN/PEJ5QU</span>
+          </div>
+          <div class="source-item">
+            Bureau of Labor Statistics — LAUS &amp; CPI &nbsp;
+            <span class="mono">api.bls.gov</span>
+          </div>
+          <div class="source-item">
+            Análisis propio — Python 3 + pandas
+          </div>
+        </div>
+
+        <p class="final-footer mt-auto">
+          Este análisis no constituye una predicción electoral. Es un ejercicio académico de análisis de condiciones de fondo.
+        </p>
+      </div>
+    </section>
+
+  </div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- Navigation controls -->
+<div class="nav-controls">
+  <button class="nav-btn" id="btn-prev" title="Anterior (←)">&#8592;</button>
+  <span class="slide-counter" id="slide-counter">1 / 10</span>
+  <button class="nav-btn" id="btn-next" title="Siguiente (→)">&#8594;</button>
+</div>
+
+<!-- Reveal.js -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: false,
+    controls: false,
+    progress: true,
+    center: false,
+    transition: 'fade',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    width: '100%',
+    height: '100%',
+    margin: 0,
+    minScale: 0.5,
+    maxScale: 2.0,
+    slideNumber: false,
+    keyboard: true,
+    touch: true,
+    loop: false,
+    rtl: false,
+    navigationMode: 'linear',
+    embedded: false,
+  });
+
+  // Custom counter and nav buttons
+  function updateCounter() {
+    const idx   = Reveal.getState().indexh + 1;
+    const total = Reveal.getTotalSlides();
+    document.getElementById('slide-counter').textContent = idx + ' / ' + total;
+  }
+
+  Reveal.on('slidechanged', updateCounter);
+  Reveal.on('ready', updateCounter);
+
+  document.getElementById('btn-prev').addEventListener('click', function() {
+    Reveal.prev();
+  });
+
+  document.getElementById('btn-next').addEventListener('click', function() {
+    Reveal.next();
+  });
+</script>
+
+</body>
+</html>

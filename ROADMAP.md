@@ -10,7 +10,8 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
       `doi:10.7910/DVN/IG0UN2`
 - [x] **1.2** Descargar CSV Senate (MIT Election Lab) desde Harvard Dataverse
       `doi:10.7910/DVN/PEJ5QU`
-- [ ] **1.3** Verificar cobertura de datos 2024 en ambos CSVs; documentar si falta
+- [x] **1.3** Verificar cobertura de datos 2024 en ambos CSVs; documentar si falta
+      Senate: 2024 OK (33 estados Class 1, stage='GEN'). House: CSV local ausente, output ya generado.
 - [x] **1.4** Generar API key gratuita de BLS en https://www.bls.gov/developers/
 - [x] **1.5** Guardar API key en archivo `.env` — conexión verificada (HTTP 200, REQUEST_SUCCEEDED)
 - [ ] **1.6** Obtener connection string de PostgreSQL desde Railway
@@ -57,29 +58,29 @@ Estado: `[ ]` pendiente · `[x]` completado · `[~]` en progreso · `[!]` bloque
 
 ## Fase 5 — Análisis
 
-- [ ] **5.1** Tabla House swing + contexto económico BLS por estado
-      → `output/house_analysis_2026.csv`
+- [x] **5.1** Tabla House swing + contexto económico BLS por estado
+      → `output/house_analysis_2026.csv` (74 distritos, score 60% hist + 40% econ)
 - [x] **5.2** Query: ranking de competitividad Senate (cubierto por `senate_analysis_2026.csv`)
 - [x] **5.3** Script scoring: combinar score histórico + económico + bellwether
       → `output/senate_analysis_2026.csv` con tabla maestra Senate
-- [ ] **5.4** Dataset completo Class 2 Senate (~34 estados): tendencia histórica + titular
+- [x] **5.4** Dataset completo Class 2 Senate (33 estados): tendencia histórica + titular
       → `output/senate_class2_all.csv`
-- [ ] **5.5** Dataset Class 1 y 3 (~16 estados): partido del titular actual (2022/2024)
+- [x] **5.5** Dataset Class 1/3 (17 estados sin Class 2 en 2026): ganador más reciente
       → `output/senate_non_class2.csv`
-- [ ] **5.6** Combinar en dataset unificado 50 estados para el mapa
+- [x] **5.6** Combinar en dataset unificado 50 estados para el mapa
       → `output/senate_map_data.csv`
 
 ---
 
 ## Fase 6 — Output
 
-- [ ] **6.1** Exportar tabla House swing + contexto económico a CSV final
-      (depende de 5.1)
+- [x] **6.1** Exportar tabla House swing + contexto económico a CSV final
+      → `output/house_analysis_2026.csv` (mismo output que 5.1)
 - [x] **6.2** Tabla maestra Senate lista → `output/senate_analysis_2026.csv`
 - [ ] **6.3** Redactar síntesis con limitaciones explícitas (sin polling,
       análisis de condiciones de fondo únicamente)
-- [ ] **6.4** Generar mapa interactivo HTML (plotly choropleth 50 estados)
-      → `output/senate_map_2026.html` (depende de 5.6)
+- [x] **6.4** Generar mapa interactivo HTML (plotly choropleth 50 estados)
+      → `output/senate_map_2026.html`
 
 ---
 

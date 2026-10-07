@@ -381,6 +381,61 @@ escaño Class 2 en 2026 (tienen Class 1 y 3) se muestran en gris-azulado
 
 ---
 
+## D-24 — Scoring House: 60% histórico + 40% económico (sin bellwether)
+
+**Fecha:** Sesión 4 — 06/10/2026
+**Aplica a:** `output/house_analysis_2026.csv`
+**Decisión:** el modelo de scoring para distritos House usa dos ejes:
+- 60% score_historico (competitividad de márgenes 2016–2024)
+- 40% score_economico (desempleo estatal vs media nacional + cambio YoY)
+
+No se incluye eje bellwether porque el concepto bellwether aplica a nivel
+estatal (control de mayoría Senate), no a nivel de distrito House.
+
+**Referencia desempleo nacional:** 4.4% (último dato LNS14000000 disponible,
+diciembre 2025). No se tiene el dato de agosto 2026 en la base local; la
+diferencia es menor para un análisis de condiciones de fondo.
+
+**Alternativa considerada:** 50/50 (igual que Senate sin bellwether). Se
+eligió 60/40 para dar más peso al historial electoral por distrito, que es
+más específico y relevante que el dato de desempleo estatal agregado.
+
+---
+
+## D-22 — Arizona no es Class 2: su elección 2020 fue especial (Class 3)
+
+**Fecha:** Sesión 4 — 05/10/2026
+**Aplica a:** clasificación de estados para el mapa Senate
+**Decisión:** AZ queda excluida de los 33 estados Class 2 y se trata como
+"No vota 2026". La elección de AZ en noviembre 2020 fue una *special election*
+para cubrir el remanente del mandato de John McCain (Class 3). Mark Kelly
+ganó esa especial y luego el puesto regular en 2022 (también Class 3).
+En 2024 la otra banca de AZ fue Class 1 (Kyrsten Sinema). AZ no tiene
+senador Class 2 en juego en 2026.
+
+**Efecto:** CLASS2_STATES = 33 estados (no 34). NON_CLASS2_STATES = 17.
+
+---
+
+## D-23 — Clasificación de safe states: usar margen más reciente, no promedio histórico
+
+**Fecha:** Sesión 4 — 05/10/2026
+**Aplica a:** 22 safe Class 2 states (los que no son swing)
+**Decisión:** para asignar la categoría del mapa (Sólido D/R) a los estados
+safe, se usa el **margen del ciclo Class 2 más reciente** (2020 si hay datos
+contestados; si fue sin oposición, el ciclo anterior con D vs R). No se usa
+el promedio histórico de 4 ciclos (2002–2020).
+
+**Razón:** varios estados sufrieron realineamientos profundos entre 2002 y 2020
+(WV, AR, SD, LA pasaron de D a R). El promedio de los 4 ciclos genera un margen
+casi neutro que los clasificaría como "Disputado" cuando la alineación actual
+es claramente R. El margen reciente refleja mejor la realidad política 2026.
+
+**Alternativa descartada:** promedio de 4 ciclos (correcto para tendencias
+estables; engañoso para estados con realineamiento).
+
+---
+
 ## D-21 — Terminología: "condiciones de fondo" reemplaza "fundamentals"
 
 **Fecha:** Sesión 3 — 05/10/2026

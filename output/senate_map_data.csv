@@ -1,0 +1,51 @@
+state_po,estado,vota_2026,clase,categoria_mapa,tendencia_historica,ganador_2020,margen_2020,es_swing,score_total,riesgo_oficialismo,desempleo_ultimo,desempleo_var_anual,es_bellwether,coincidencia_bellwether,anio_mas_reciente,ganador_mas_reciente,margen_mas_reciente
+AK,Alaska,True,Class 2,Sólido R,Sólido R,R,13.4,False,,,,,,,2020,R,13.4
+AL,Alabama,True,Class 2,Sólido R,Sólido R,R,20.4,False,,,,,,,2020,R,20.4
+AR,Arkansas,True,Class 2,Sólido R,Sólido R,,,False,,,,,,,2020,,
+AZ,Arizona,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-2.5
+CA,California,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-17.7
+CO,Colorado,True,Class 2,Favorable D,Leve D,D,-9.5,True,67.1,Favorable D,4.6,0.7,True,5 de 6,2020,D,-9.5
+CT,Connecticut,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-16.9
+DE,Delaware,True,Class 2,Sólido D,Sólido D,D,-22.1,False,,,,,,,2020,D,-22.1
+FL,Florida,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,13.0
+GA,Georgia,True,Class 2,Disputado,Leve R,R,1.8,True,42.7,Disputado,3.4,-0.2,False,3 de 6,2020,R,1.8
+HI,Hawaii,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-33.9
+IA,Iowa,True,Class 2,Favorable R,Sólido R,R,6.8,True,20.2,Favorable R,3.6,-0.2,False,3 de 6,2020,R,6.8
+ID,Idaho,True,Class 2,Sólido R,Sólido R,R,30.6,False,,,,,,,2020,R,30.6
+IL,Illinois,True,Class 2,Sólido D,Sólido D,D,-17.1,False,,,,,,,2020,D,-17.1
+IN,Indiana,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,20.4
+KS,Kansas,True,Class 2,Sólido R,Sólido R,R,12.0,False,,,,,,,2020,R,12.0
+KY,Kentucky,True,Class 2,Sólido R,Sólido R,R,20.3,False,,,,,,,2020,R,20.3
+LA,Louisiana,True,Class 2,Sólido R,Sólido R,R,26.8,False,,,,,,,2020,R,26.8
+MA,Massachusetts,True,Class 2,Sólido D,Sólido D,D,-33.4,False,,,,,,,2020,D,-33.4
+MD,Maryland,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-12.1
+ME,Maine,True,Class 2,Favorable R,Sólido R,R,9.2,True,17.8,Favorable R,3.1,0.1,False,3 de 6,2020,R,9.2
+MI,Michigan,True,Class 2,Favorable D,Disputado,D,-1.7,True,73.0,Favorable D,5.2,0.3,False,3 de 6,2020,D,-1.7
+MN,Minnesota,True,Class 2,Disputado,Sólido D,D,-5.7,True,43.0,Disputado,4.8,0.8,True,4 de 6,2020,D,-5.7
+MO,Missouri,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,14.1
+MS,Mississippi,True,Class 2,Sólido R,Sólido R,R,10.2,False,,,,,,,2020,R,10.2
+MT,Montana,True,Class 2,Disputado,Disputado,R,10.0,True,43.7,Disputado,3.0,-0.2,False,3 de 6,2020,R,10.0
+NC,North Carolina,True,Class 2,Disputado,Disputado,R,1.8,True,56.5,Disputado,3.6,-0.5,True,4 de 6,2020,R,1.8
+ND,North Dakota,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,33.0
+NE,Nebraska,True,Class 2,Sólido R,Sólido R,R,44.0,False,,,,,,,2020,R,44.0
+NH,New Hampshire,True,Class 2,Favorable R,Leve D,D,-16.0,True,38.4,Favorable R,2.8,-0.4,True,4 de 6,2020,D,-16.0
+NJ,New Jersey,True,Class 2,Sólido D,Sólido D,D,-16.6,False,,,,,,,2020,D,-16.6
+NM,New Mexico,True,Class 2,Favorable R,Sólido D,D,-6.3,True,38.7,Favorable R,4.9,0.7,True,4 de 6,2020,D,-6.3
+NV,Nevada,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-1.7
+NY,New York,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-18.4
+OH,Ohio,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,3.7
+OK,Oklahoma,True,Class 2,Sólido R,Sólido R,R,31.5,False,,,,,,,2020,R,31.5
+OR,Oregon,True,Class 2,Sólido D,Sólido D,D,-18.3,False,,,,,,,2020,D,-18.3
+PA,Pennsylvania,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,0.2
+RI,Rhode Island,True,Class 2,Sólido D,Sólido D,D,-33.2,False,,,,,,,2020,D,-33.2
+SC,South Carolina,True,Class 2,Sólido R,Sólido R,R,10.4,False,,,,,,,2020,R,10.4
+SD,South Dakota,True,Class 2,Sólido R,Sólido R,R,31.5,False,,,,,,,2020,R,31.5
+TN,Tennessee,True,Class 2,Sólido R,Sólido R,R,27.8,False,,,,,,,2020,R,27.8
+TX,Texas,True,Class 2,Disputado,Leve R,R,9.9,True,59.5,Disputado,4.6,0.0,False,3 de 6,2020,R,9.9
+UT,Utah,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,R,32.6
+VA,Virginia,True,Class 2,Sólido D,Sólido D,D,-12.1,False,,,,,,,2020,D,-12.1
+VT,Vermont,False,Class 1/3,No vota 2026,,,,,,,,,,,2022,D,-41.9
+WA,Washington,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-18.5
+WI,Wisconsin,False,Class 1/3,No vota 2026,,,,,,,,,,,2024,D,-0.9
+WV,West Virginia,True,Class 2,Sólido R,Sólido R,R,44.5,False,,,,,,,2020,R,44.5
+WY,Wyoming,True,Class 2,Sólido R,Sólido R,,,False,,,,,,,2020,,

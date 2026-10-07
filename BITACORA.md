@@ -99,6 +99,74 @@ inicio de cada sesión y después de cada hito relevante.
 
 ---
 
+## Sesión 4 — 05/10/2026
+
+### Tarea 1.3 — Cobertura 2024 en CSVs MIT
+
+- Senate CSV (`1976-2024-senate-state.csv`): **incluye 2024** (33 estados Class 1,
+  campo `stage = 'GEN'` en mayúsculas a diferencia de años anteriores).
+- House CSV (`1976-2024-house.tab`): **no disponible localmente**; el archivo
+  fue descargado en una sesión previa y ya no está en disco. El output
+  `output/house_swing_2026.csv` (74 distritos) fue generado en Sesión 1 y sigue
+  disponible.
+
+### Tareas 5.4, 5.5, 5.6 — Dataset completo 50 estados para el mapa
+
+- Escrito script `analysis/analisis_05_senate_map_data.py`.
+- **Hallazgo D-22:** AZ no es Class 2 — su elección 2020 fue especial (Class 3,
+  la banca de John McCain). CLASS2 = 33 estados (no 34).
+- **Hallazgo:** el campo `stage` en datos 2024 es `'GEN'` (mayúsculas); el
+  filtro original `== 'gen'` lo descartaba. Corregido con `.str.lower()`.
+- **Decisión D-23:** safe states clasificados por margen más reciente (no
+  promedio histórico) para evitar distorsión en estados con realineamiento
+  político (WV, AR, SD, LA).
+- Generados outputs:
+  - `output/senate_class2_all.csv` — 33 estados Class 2 (11 swing + 22 safe)
+  - `output/senate_non_class2.csv` — 17 estados sin Class 2 en 2026
+  - `output/senate_map_data.csv` — 50 estados unificados para el mapa
+
+### Distribución de categorías en el mapa
+
+| Categoría      | N | Color     |
+|----------------|---|-----------|
+| No vota 2026   | 17 | #90A4AE  |
+| Sólido R       | 15 | #B71C1C  |
+| Sólido D       |  7 | #0D47A1  |
+| Disputado      |  5 | #FFD600  |
+| Favorable R    |  4 | #FF8F00  |
+| Favorable D    |  2 | #2196F3  |
+
+### Tareas 5.1 / 6.1 — House swing + contexto económico
+
+- Escrito script `analysis/analisis_06_house_analysis.py`.
+- Scoring House: 60% score_historico + 40% score_economico (sin bellwether — D-24).
+- Desempleo nacional de referencia: 4.4% (último dato BLS disponible).
+- Output: `output/house_analysis_2026.csv` — 74 distritos swing con score y riesgo.
+
+### Tarea 6.4 — Mapa interactivo Senate HTML
+
+- Escrito script `analysis/analisis_07_senate_map.py`.
+- Choropleth plotly 50 estados con paleta D-18, tooltip completo D-19 y grises D-20.
+- Output: `output/senate_map_2026.html`.
+
+### Presentación
+
+- Generado `output/presentacion_2026.html` — presentación Reveal.js con análisis completo
+  de condiciones de fondo para las midterms 2026.
+
+### Estado al cierre
+
+- Completadas: 1.3, 5.1, 5.4, 5.5, 5.6, 6.1, 6.4.
+- Pendiente para el TP:
+  - **6.3** Síntesis escrita con limitaciones explícitas
+
+### Próxima sesión
+
+1. **6.3** — Redactar síntesis final con limitaciones (sin polling, análisis de
+   condiciones de fondo únicamente).
+
+---
+
 ## Sesión 3 — 05/10/2026
 
 ### Decisiones estratégicas
