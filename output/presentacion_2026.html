@@ -665,50 +665,7 @@
     /* ============================================================
        NAVIGATION CONTROLS
     ============================================================ */
-    .nav-controls {
-      position: fixed;
-      bottom: 22px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: 1.2em;
-      z-index: 9999;
-    }
-
-    .nav-btn {
-      background: rgba(13,43,94,0.88);
-      border: 1.5px solid var(--gold);
-      color: var(--gold);
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1em;
-      transition: background 0.2s, color 0.2s;
-      font-family: var(--font-mono);
-    }
-
-    .nav-btn:hover {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    .slide-counter {
-      font-family: var(--font-mono);
-      font-size: 0.72em;
-      color: var(--gold);
-      background: rgba(13,43,94,0.88);
-      padding: 0.3em 0.8em;
-      border-radius: 12px;
-      border: 1px solid rgba(201,168,76,0.4);
-      min-width: 52px;
-      text-align: center;
-      letter-spacing: 0.05em;
-    }
+    .nav-controls { display: none; }
 
     /* ============================================================
        REVEAL OVERRIDES
@@ -941,8 +898,24 @@
         </div>
 
         <div class="formula-box">
-          <span class="gold-line" style="margin-bottom:0.6em;"></span>
-          <p class="formula-text">Score = Σ(peso × componente) &nbsp;→&nbsp; 0 – 100</p>
+          <span class="gold-line" style="margin-bottom:0.5em;"></span>
+          <p class="formula-text" style="margin-bottom:0.45em;">
+            Score = (peso<sub style="font-size:0.75em;">hist</sub> × score<sub style="font-size:0.75em;">hist</sub>)
+            + (peso<sub style="font-size:0.75em;">econ</sub> × score<sub style="font-size:0.75em;">econ</sub>)
+            + (peso<sub style="font-size:0.75em;">bw</sub> × score<sub style="font-size:0.75em;">bw</sub>)
+            &nbsp;→&nbsp; resultado entre 0 y 100
+          </p>
+          <p style="font-size:0.82em; color:var(--cream-70); line-height:1.5; margin-bottom:0.45em; font-family:var(--font-body);">
+            Cada componente es un valor de 0 a 100 calculado a partir de los datos crudos:
+            el historial mide el margen promedio de victorias pasadas,
+            la economía mide cuánto se aleja el desempleo estatal de la media nacional,
+            y el bellwether cuenta en cuántos ciclos el estado "acertó" el control de la cámara.
+          </p>
+          <div style="display:flex; gap:1.2em; justify-content:center;">
+            <span style="font-family:var(--font-mono); font-size:0.8em; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.4); padding:0.25em 0.8em; border-radius:2px; color:var(--cream);">Score &lt; 40 → Favorable R</span>
+            <span style="font-family:var(--font-mono); font-size:0.8em; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.4); padding:0.25em 0.8em; border-radius:2px; color:var(--cream);">Score 40–60 → Disputado</span>
+            <span style="font-family:var(--font-mono); font-size:0.8em; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.4); padding:0.25em 0.8em; border-radius:2px; color:var(--cream);">Score &gt; 60 → Favorable D</span>
+          </div>
         </div>
       </div>
     </section>
