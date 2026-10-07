@@ -948,6 +948,77 @@
     </section>
 
     <!-- ============================================================
+         SLIDE 3b — MATRIZ DE PONDERACIÓN
+    ============================================================ -->
+    <section>
+      <div class="slide-light deck-pad" style="height:100vh;">
+        <p class="supra" style="color:var(--gold); letter-spacing:0.15em; font-size:0.6em;">METODOLOGÍA — PESOS Y DECISIONES</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--dark" style="margin-bottom:0.15em;">Matriz de ponderación</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.55em;"></span>
+
+        <table class="academic" style="margin-bottom:0.6em;">
+          <thead>
+            <tr>
+              <th>Componente</th>
+              <th style="text-align:center;">Peso Senate</th>
+              <th style="text-align:center;">Peso House</th>
+              <th>Fuente / métrica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>I. Historial electoral</strong></td>
+              <td style="text-align:center;" class="mono fw-600">50 %</td>
+              <td style="text-align:center;" class="mono fw-600">60 %</td>
+              <td>MIT Election Lab 1976–2024 — margen promedio por estado/distrito</td>
+            </tr>
+            <tr>
+              <td><strong>II. Condiciones económicas</strong></td>
+              <td style="text-align:center;" class="mono fw-600">30 %</td>
+              <td style="text-align:center;" class="mono fw-600">40 %</td>
+              <td>BLS LAUS ago 2026 — desempleo estatal vs. media nacional + var. interanual</td>
+            </tr>
+            <tr>
+              <td><strong>III. Indicador bellwether</strong></td>
+              <td style="text-align:center;" class="mono fw-600">20 %</td>
+              <td style="text-align:center;" class="mono" style="color:#aaa;">N/A</td>
+              <td>Coincidencia histórica estado–control Senate, ciclos Class 2 1990–2020</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="col-2" style="gap:1.2em;">
+          <div class="card card--light" style="padding:0.8em 1em;">
+            <div class="card__title" style="font-size:0.78em; margin-bottom:0.4em;">Senate — Decisión D-13</div>
+            <p style="font-size:0.67em; line-height:1.65; color:var(--carbon);">
+              El bellwether (20%) se incluye porque existen datos históricos de control
+              de mayoría Senate por estado desde 1990. Mide si el estado históricamente
+              "anuncia" el resultado nacional — señal estructural que el margen electoral
+              no captura. El historial toma el 50% restante porque es la fuente más directa
+              de competitividad. La economía (30%) actúa como eje de presión sobre el titular.
+            </p>
+          </div>
+          <div class="card card--light" style="padding:0.8em 1em;">
+            <div class="card__title" style="font-size:0.78em; margin-bottom:0.4em;">House — Decisión D-24</div>
+            <p style="font-size:0.67em; line-height:1.65; color:var(--carbon);">
+              Sin bellwether: el indicador opera a nivel estatal, no existe equivalente
+              por distrito para la Cámara. El peso del historial sube a 60% para compensar —
+              el margen por distrito es la señal más específica disponible. La economía
+              sube a 40% porque el dato de desempleo estatal gana relevancia relativa
+              al desaparecer el tercer eje.
+            </p>
+          </div>
+        </div>
+
+        <p class="footnote" style="margin-top:0.6em;">
+          Swing = margen promedio &lt;10 pp <em>o</em> al menos un flip en ciclos 2016–2024 (D-01).
+          Score 0–100: mayor valor = mayor presión sobre el oficialismo R.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
          SLIDE 4 — SENATE: 11 ESTADOS EN JUEGO
     ============================================================ -->
     <section>
@@ -1450,6 +1521,61 @@
 
         <p class="final-footer mt-auto">
           Este análisis no constituye una predicción electoral. Es un ejercicio académico de análisis de condiciones de fondo.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 11 — DECLARACIÓN DE USO DE IA
+    ============================================================ -->
+    <section>
+      <div class="slide-dark deck-pad" style="height:100vh;">
+        <div class="deco-num" style="font-size:16vw; bottom:-4%; right:-1%; opacity:0.10; letter-spacing:-0.05em;">IA</div>
+
+        <p class="supra" style="letter-spacing:0.15em; font-size:0.6em;">TRANSPARENCIA METODOLÓGICA</p>
+        <span class="gold-line--short"></span>
+        <h2 class="slide-heading slide-heading--light" style="margin-bottom:0.2em;">Declaración de uso de inteligencia artificial</h2>
+        <span class="gold-line" style="margin:0.3em 0 0.5em;"></span>
+
+        <div class="col-3" style="flex-grow:1; align-items:stretch;">
+          <!-- Col 1: El autor hizo -->
+          <div class="card card--dark flex-col">
+            <div class="card__title" style="color:var(--gold); margin-bottom:0.5em;">El autor hizo</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Definición del problema y la pregunta de investigación</li>
+              <li>Selección y evaluación de fuentes de datos</li>
+              <li>Todas las decisiones metodológicas (D-01 a D-24)</li>
+              <li>Supervisión y validación de cada output generado</li>
+              <li>Corrección de errores y dirección del análisis</li>
+              <li>Interpretación de resultados y conclusiones</li>
+            </ul>
+          </div>
+          <!-- Col 2: La IA hizo -->
+          <div class="card card--dark flex-col">
+            <div class="card__title" style="color:var(--gold); margin-bottom:0.5em;">La IA hizo</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Redacción e iteración del código Python bajo instrucciones explícitas del autor</li>
+              <li>Ejecución de planes de implementación aprobados por el autor</li>
+              <li>Documentación del repositorio siguiendo criterios definidos por el autor</li>
+              <li>Detección de errores técnicos durante la implementación</li>
+            </ul>
+          </div>
+          <!-- Col 3: La IA NO hizo -->
+          <div class="card card--dark flex-col">
+            <div class="card__title" style="color:#FF8F00; margin-bottom:0.5em;">La IA NO hizo</div>
+            <ul class="tight-list" style="flex-grow:1;">
+              <li>Ninguna decisión metodológica de forma autónoma</li>
+              <li>Selección de fuentes de datos</li>
+              <li>Definición de umbrales o criterios de clasificación</li>
+              <li>Interpretación de los resultados</li>
+              <li>Conclusiones del análisis</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="footnote footnote--light" style="margin-top:0.5em;">
+          Herramienta utilizada: <strong>Claude Code (Anthropic)</strong>.
+          Toda decisión no trivial fue consultada explícitamente y aprobada por el autor antes de implementarse.
         </p>
       </div>
     </section>
